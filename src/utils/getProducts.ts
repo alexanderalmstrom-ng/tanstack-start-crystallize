@@ -1,5 +1,5 @@
 import { graphql } from "@/gql";
-import shopifyClient from "@/services/shopifyClient";
+import shopifyClient from "@/services/shopify/client";
 
 const productsQuery = graphql(`
     query Products {
@@ -23,5 +23,5 @@ const productsQuery = graphql(`
 export default async function getProducts() {
   const { data } = await shopifyClient(productsQuery);
 
-  return data.data?.products?.edges?.map((edge) => edge.node);
+  return data?.products?.edges?.map((edge) => edge.node);
 }

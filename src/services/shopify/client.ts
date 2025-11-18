@@ -40,10 +40,9 @@ export default async function shopifyClient<TResult, TVariables>(
     },
   );
 
-  const data = (await response.json()) as ShopifyClientResponse<TResult>;
+  if (!response.ok) {
+    throw new Error(`Failed to fetch Shopify API: ${response.statusText}`);
+  }
 
-  return {
-    data,
-    errors: data.errors,
-  };
+  return (await response.json()) as ShopifyClientResponse<TResult>;
 }
