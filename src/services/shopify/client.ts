@@ -45,6 +45,7 @@ export default async function shopifyClient<TResult, TVariables>(
   );
 
   if (!response.ok) {
+    console.error(await response.json());
     throw new Error(`Failed to fetch Shopify API: ${response.statusText}`);
   }
 
