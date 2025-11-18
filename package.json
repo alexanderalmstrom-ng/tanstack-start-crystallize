@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev --port 3000",
-    "build": "pnpm codegen && dotenvx run -- vite build",
+    "build": "pnpm codegen && vite build",
     "build:local": "pnpm codegen:local && vite build",
     "serve": "vite preview",
     "test": "vitest run",
