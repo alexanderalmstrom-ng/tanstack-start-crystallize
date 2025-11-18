@@ -1,21 +1,25 @@
 import z from "zod";
 import type { TypedDocumentString } from "@/gql/graphql";
 
+type ShopifyClientErrorLocation = {
+  line: number;
+  column: number;
+};
+
+type ShopifyClientErrorExtension = {
+  code: string;
+};
+
 type ShopifyClientError = {
   message: string;
-  extensions?: {
-    code: string;
-  };
-  locations?: {
-    line: number;
-    column: number;
-  }[];
+  extensions?: ShopifyClientErrorExtension;
+  locations?: ShopifyClientErrorLocation[];
   path?: string[];
 };
 
 type ShopifyClientResponse<TResult> = {
   data: TResult | null;
-  errors: ShopifyClientError[];
+  errors?: ShopifyClientError[];
 };
 
 export default async function shopifyClient<TResult, TVariables>(
