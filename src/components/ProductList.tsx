@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import type { ProductsQuery } from "@/gql/graphql";
 import { useTRPCClient } from "@/integrations/trpc/react";
 import ProductCard from "./ProductCard";
@@ -14,17 +14,21 @@ function isMediaImage(
 
 export default function ProductList() {
   const trpc = useTRPCClient();
-  const { data: products } = useSuspenseQuery({
+  const { data: products, isLoading } = useQuery({
     queryKey: ["products"],
-    queryFn: () => trpc.shopify.products.query(),
+    queryFn: async () => await trpc.shopify.products.query(),
   });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   if (!products) {
     return <div>No products</div>;
   }
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-px">
       {products.map((product) => {
         const mediaImage = product.media.nodes.filter(isMediaImage)[0];
 
@@ -35,6 +39,8 @@ export default function ProductList() {
             productImageUrl={mediaImage?.image?.url}
             productImageAltText={mediaImage?.image?.altText}
             productHandle={product.handle}
+            productImageWidth={mediaImage?.image?.width ?? undefined}
+            productImageHeight={mediaImage?.image?.height ?? undefined}
           />
         );
       })}

@@ -3,10 +3,7 @@ import { getProducts } from "@/utils/product";
 import { createTRPCRouter, publicProcedure } from "./init";
 
 const shopifyRouter = {
-  products: publicProcedure.query(async () => {
-    const products = await getProducts();
-    return products;
-  }),
+  products: publicProcedure.query(() => getProducts()),
 } satisfies TRPCRouterRecord;
 
 export const trpcRouter = createTRPCRouter({

@@ -5,6 +5,8 @@ type ProductCardProps = {
   productImageUrl?: string;
   productImageAltText?: string | null;
   productHandle: string;
+  productImageWidth?: number;
+  productImageHeight?: number;
 };
 
 export default function ProductCard({
@@ -12,11 +14,24 @@ export default function ProductCard({
   productImageUrl,
   productImageAltText,
   productHandle,
+  productImageWidth,
+  productImageHeight,
 }: ProductCardProps) {
   return (
-    <Link to={`/product/$slug`} params={{ slug: productHandle }}>
+    <Link
+      className="bg-amber-50/30"
+      to={`/product/$slug`}
+      params={{ slug: productHandle }}
+    >
       {productImageUrl && (
-        <img src={productImageUrl} alt={productImageAltText ?? productName} />
+        <img
+          className="w-full h-full object-contain aspect-square mix-blend-multiply"
+          src={productImageUrl}
+          alt={productImageAltText ?? productName}
+          loading="eager"
+          width={productImageWidth}
+          height={productImageHeight}
+        />
       )}
       <h3>{productName}</h3>
     </Link>
