@@ -3,23 +3,22 @@ import type { QueryClient } from "@tanstack/react-query";
 import {
   createRootRouteWithContext,
   HeadContent,
+  Outlet,
   Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query";
-import type { ReactNode } from "react";
 import type { TRPCRouter } from "@/integrations/trpc/router";
 import Header from "../components/Header";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
 
-interface MyRouterContext {
+export interface RouterAppContext {
   queryClient: QueryClient;
-
   trpc: TRPCOptionsProxy<TRPCRouter>;
 }
 
-export const Route = createRootRouteWithContext<MyRouterContext>()({
+export const Route = createRootRouteWithContext<RouterAppContext>()({
   head: () => ({
     meta: [
       {
@@ -40,10 +39,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
     ],
   }),
-  shellComponent: RootDocument,
+  component: RootComponent,
 });
 
-function RootDocument({ children }: { children: ReactNode }) {
+function RootComponent() {
   return (
     <html lang="en">
       <head>
@@ -51,7 +50,7 @@ function RootDocument({ children }: { children: ReactNode }) {
       </head>
       <body>
         <Header />
-        {children}
+        <Outlet />
         <TanStackDevtools
           config={{
             position: "bottom-right",
