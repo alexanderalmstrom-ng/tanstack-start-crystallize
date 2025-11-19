@@ -26,7 +26,7 @@ export default function ProductList() {
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-px">
-      {products.map((product) => {
+      {products.map((product, index) => {
         const mediaImage = product.media.nodes.filter(isMediaImage)[0];
 
         return (
@@ -36,8 +36,7 @@ export default function ProductList() {
             productImageUrl={mediaImage?.image?.url}
             productImageAltText={mediaImage?.image?.altText}
             productHandle={product.handle}
-            productImageWidth={mediaImage?.image?.width ?? undefined}
-            productImageHeight={mediaImage?.image?.height ?? undefined}
+            loading={index < 4 ? "eager" : undefined}
           />
         );
       })}

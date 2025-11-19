@@ -6,7 +6,7 @@
     "dev": "vite dev --port 3000",
     "build": "pnpm codegen && vite build",
     "build:local": "pnpm codegen:local && vite build",
-    "serve": "vite preview",
+    "start": "vite preview",
     "test": "vitest run",
     "format": "biome format",
     "lint": "biome lint",
