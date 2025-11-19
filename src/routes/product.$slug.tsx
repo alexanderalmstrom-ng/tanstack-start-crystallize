@@ -25,22 +25,29 @@ function RouteComponent() {
   const images = resolveProductImages(product);
 
   return (
-    <div>
-      <h1>{product?.title}</h1>
+    <main className="grid lg:grid-cols-2 gap-4">
       {images?.map(
         (image) =>
           image?.image?.url && (
-            <img
-              key={image.id}
-              src={image.image.url}
-              alt={image.image.altText ?? ""}
-              width={image.image.width ?? 2000}
-              height={image.image.height ?? 2000}
-              className="w-full h-full object-fit mix-blend-multiply"
-            />
+            <picture className="bg-amber-50 flex">
+              <img
+                key={image.id}
+                src={image.image.url}
+                alt={image.image.altText ?? ""}
+                width={image.image.width ?? 2000}
+                height={image.image.height ?? 2000}
+                className="w-full h-full object-fit mix-blend-multiply"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                loading="eager"
+              />
+            </picture>
           ),
       )}
-    </div>
+      <div className="flex flex-col gap-4">
+        <h1 className="text-2xl">{product.title}</h1>
+        {product.description && <p>{product.description}</p>}
+      </div>
+    </main>
   );
 }
 
