@@ -1,4 +1,3 @@
-// import { createServerFn } from "@tanstack/react-start";
 import { graphql } from "@/gql";
 import type { ProductsQuery } from "@/gql/graphql";
 import shopifyClient from "@/services/shopify/client";
@@ -16,10 +15,6 @@ export async function getProducts() {
   const { data } = await shopifyClient(productsQuery);
   return data?.products?.edges?.map((edge) => edge.node);
 }
-
-// export const getProductsServerFn = createServerFn().handler(() =>
-//   getProducts(),
-// );
 
 export const productsQuery = graphql(`
   query Products {
