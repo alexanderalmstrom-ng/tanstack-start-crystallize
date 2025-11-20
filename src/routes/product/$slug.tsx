@@ -28,7 +28,10 @@ export const Route = createFileRoute("/product/$slug")({
       throw notFound();
     }
 
-    return { product, state: await getFormDataFromServer() };
+    return {
+      product,
+      state: await getFormDataFromServer(),
+    };
   },
 });
 

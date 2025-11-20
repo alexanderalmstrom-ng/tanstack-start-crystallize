@@ -20,6 +20,7 @@
     "@shopify/hydrogen-react": "^2025.7.0",
     "@tailwindcss/vite": "^4.1.17",
     "@tanstack/react-devtools": "^0.8.1",
+    "@tanstack/react-form": "^1.25.0",
     "@tanstack/react-form-start": "^1.25.0",
     "@tanstack/react-query": "^5.90.10",
     "@tanstack/react-query-devtools": "^5.90.2",

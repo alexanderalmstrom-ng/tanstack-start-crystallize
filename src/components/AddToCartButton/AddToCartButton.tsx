@@ -25,18 +25,16 @@ export const addToCartServerFn = createServerFn({ method: "POST" })
     }
 
     try {
-      const cart = await createCartServerFn({
+      await createCartServerFn({
         data: {
           lines: [{ quantity: quantity.data, merchandiseId: variantId.data }],
         },
       });
 
-      console.log("Cart created", cart);
-
-      return cart;
+      return "Cart created successfully";
     } catch (error) {
       console.error("Error adding to cart", error);
-      throw error;
+      return "There was an error adding to cart";
     }
   });
 
