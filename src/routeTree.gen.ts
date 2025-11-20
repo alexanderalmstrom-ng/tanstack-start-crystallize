@@ -11,8 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as NotFoundRouteImport } from './routes/not-found'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProductSlugRouteImport } from './routes/product.$slug'
-import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$'
+import { Route as ProductSlugRouteImport } from './routes/product/$slug'
+import { Route as ApiTrpcSplatRouteImport } from './routes/api/trpc/$'
 
 const NotFoundRoute = NotFoundRouteImport.update({
   id: '/not-found',
