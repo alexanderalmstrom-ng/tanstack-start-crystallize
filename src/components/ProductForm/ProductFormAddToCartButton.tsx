@@ -4,7 +4,7 @@ type AddToCartButtonProps = ComponentProps<"button"> & {
   variantId: string;
 };
 
-export default function AddToCartButton({
+export default function ProductFormAddToCartButton({
   children,
   variantId,
   ...props
