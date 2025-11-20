@@ -32,10 +32,10 @@ export default function ProductCard({
             className="w-full h-full object-contain aspect-square mix-blend-multiply"
             src={productImageUrl}
             alt={productImageAltText ?? productName}
-            width={productImageWidth ?? 2000}
-            height={productImageHeight ?? 2000}
+            width={productImageWidth ?? 1000}
+            height={productImageHeight ?? 1000}
             sizes="(min-width: 1024px) 25vw, 50vw"
-            loading={loading}
+            priority={loading === "eager"}
           />
         </picture>
       )}

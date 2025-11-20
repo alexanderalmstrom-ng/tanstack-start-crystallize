@@ -1,5 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
+import { Image } from "@unpic/react";
 import z from "zod";
 import { getFragmentData, graphql } from "@/gql";
 import type { ProductBySlugQuery } from "@/gql/graphql";
@@ -30,7 +31,7 @@ function RouteComponent() {
         (image) =>
           image?.image?.url && (
             <picture className="bg-amber-50 flex">
-              <img
+              <Image
                 key={image.id}
                 src={image.image.url}
                 alt={image.image.altText ?? ""}
