@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
+import { addToCartSchema } from "@/components/ProductForm/ProductForm";
 import { graphql } from "@/gql";
 import shopifyClient from "@/integrations/shopify/client";
 
@@ -91,31 +92,13 @@ mutation cartCreate($lines: [CartLineInput!]!) {
 }
 `);
 
-export const addToCartServerFn = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => {
-    if (!(data instanceof FormData)) {
-      throw new Error("Invalid form data");
-    }
-    return data;
-  })
-  .handler(async ({ data }) => {
-    const variantId = z.string().safeParse(data.get("variantId"));
-    const quantity = z
-      .string()
-      .optional()
-      .transform((value) => (value ? Number(value) : undefined))
-      .safeParse(data.get("quantity"));
-
-    if (variantId.error) {
-      throw new Error("Variant ID is required", {
-        cause: variantId.error.cause,
-      });
-    }
-
+export const addToCartServerFn = createServerFn()
+  .inputValidator(addToCartSchema)
+  .handler(async ({ data: { variantId, quantity } }) => {
     try {
       await createCartServerFn({
         data: {
-          lines: [{ quantity: quantity.data, merchandiseId: variantId.data }],
+          lines: [{ quantity, merchandiseId: variantId }],
         },
       });
 
