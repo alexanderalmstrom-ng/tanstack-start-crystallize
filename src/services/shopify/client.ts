@@ -74,7 +74,7 @@ function getShopifyClientHeaders() {
     } as HeadersInit;
   }
 
-  return {
-    "Content-Type": "application/json",
-  } as HeadersInit;
+  throw new Error(
+    "No Shopify client headers found. Please check your Shopify config.",
+  );
 }
