@@ -30,7 +30,7 @@ function RouteComponent() {
       {images?.map(
         (image) =>
           image?.image?.url && (
-            <picture className="bg-card">
+            <picture className="bg-secondary">
               <Image
                 key={image.id}
                 src={image.image.url}

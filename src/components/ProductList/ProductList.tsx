@@ -4,6 +4,7 @@ import { useTRPC } from "@/integrations/trpc/react";
 import { isMediaImage } from "@/lib/product";
 import ProductCard from "../ProductCard/ProductCard";
 import ProductCardContent from "../ProductCard/ProductCardContent";
+import ProductCardTitle from "../ProductCard/ProductCardTitle";
 
 export default function ProductList() {
   const trpc = useTRPC();
@@ -33,7 +34,7 @@ export default function ProductList() {
 
         return (
           <ProductCard key={product.id} slug={product.handle}>
-            <picture className="bg-card">
+            <picture className="bg-secondary">
               <Image
                 className="w-full h-full object-contain aspect-square mix-blend-multiply"
                 src={mediaImage?.image?.url}
@@ -45,7 +46,7 @@ export default function ProductList() {
               />
             </picture>
             <ProductCardContent>
-              <h3>{product.title}</h3>
+              <ProductCardTitle>{product.title}</ProductCardTitle>
             </ProductCardContent>
           </ProductCard>
         );
