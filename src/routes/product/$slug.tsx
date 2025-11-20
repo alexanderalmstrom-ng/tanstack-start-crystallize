@@ -54,9 +54,11 @@ function RouteComponent() {
       {images?.map(
         (image) =>
           image?.image?.url && (
-            <picture className="bg-secondary lg:col-span-6 xl:col-span-7">
+            <picture
+              className="bg-secondary lg:col-span-6 xl:col-span-7"
+              key={image.id}
+            >
               <Image
-                key={image.id}
                 src={image.image.url}
                 alt={image.image.altText ?? ""}
                 width={image.image.width ?? 2000}
