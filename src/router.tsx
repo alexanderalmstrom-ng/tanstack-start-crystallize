@@ -15,6 +15,8 @@ export const getRouter = () => {
     defaultPreload: "intent",
     scrollRestoration: true,
     scrollRestorationBehavior: "instant",
+    defaultNotFoundComponent: NotFoundComponent,
+    notFoundMode: "root",
     Wrap: (props: { children: React.ReactNode }) => {
       return (
         <TanstackQuery.Provider {...providerContext}>
@@ -31,3 +33,7 @@ export const getRouter = () => {
 
   return router;
 };
+
+function NotFoundComponent() {
+  return <div>Not Found</div>;
+}
