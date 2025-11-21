@@ -1,6 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
-import { addToCartSchema } from "@/components/ProductForm/ProductForm";
 import { graphql } from "@/gql";
 import shopifyClient from "@/integrations/shopify/client";
 
@@ -91,6 +90,11 @@ mutation cartCreate($lines: [CartLineInput!]!) {
   }
 }
 `);
+
+export const addToCartSchema = z.object({
+  variantId: z.string().min(1, "Variant ID is required"),
+  quantity: z.number().optional().default(1),
+});
 
 export const addToCartServerFn = createServerFn()
   .inputValidator(addToCartSchema)

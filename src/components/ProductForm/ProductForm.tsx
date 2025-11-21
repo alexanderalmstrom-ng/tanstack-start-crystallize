@@ -1,13 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import z from "zod";
-import { addToCartServerFn } from "@/lib/cart";
+import { addToCartSchema, addToCartServerFn } from "@/lib/cart";
 import AddToCartButton from "./ProductFormAddToCartButton";
-
-export const addToCartSchema = z.object({
-  variantId: z.string().min(1, "Variant ID is required"),
-  quantity: z.number().optional().default(1),
-});
 
 export default function ProductForm({ variantId }: { variantId: string }) {
   const { register, handleSubmit, formState } = useForm({
