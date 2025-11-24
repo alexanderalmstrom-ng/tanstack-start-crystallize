@@ -4,13 +4,43 @@ import type { TypedDocumentString } from "@/gql/graphql";
 import { crystallizeConfig } from "./config";
 import { crystallizeResponseSchema } from "./schema";
 
-export default async function crystallizeClient<TResult, TVariables>(
-  endpoint: "catalogue" | "discovery" | "auth/token" | "cart",
-  query: TypedDocumentString<TResult, TVariables>,
-  variables?: TVariables,
+type CrystallizeClientProps<TResult, TVariables> = {
+  api?: "api" | "shop-api";
+  endpoint: "catalogue" | "discovery" | "auth/token" | "cart";
+  query: TypedDocumentString<TResult, TVariables>;
+  variables?: TVariables;
+};
+
+type CrystallizeApiClientProps<TResult, TVariables> = Omit<
+  CrystallizeClientProps<TResult, TVariables>,
+  "api"
+>;
+
+type CrystallizeShopApiClientProps<TResult, TVariables> = Omit<
+  CrystallizeClientProps<TResult, TVariables>,
+  "api"
+>;
+
+export function crystallizeApiClient<TResult, TVariables>(
+  props: CrystallizeApiClientProps<TResult, TVariables>,
 ) {
+  return crystallizeClient({ ...props });
+}
+
+export function crystallizeShopApiClient<TResult, TVariables>(
+  props: CrystallizeShopApiClientProps<TResult, TVariables>,
+) {
+  return crystallizeClient({ api: "shop-api", ...props });
+}
+
+async function crystallizeClient<TResult, TVariables>({
+  api = "api",
+  endpoint,
+  query,
+  variables,
+}: CrystallizeClientProps<TResult, TVariables>) {
   const response = await fetch(
-    `https://api.crystallize.com/${crystallizeConfig.tenantId}/${endpoint}`,
+    `https://${api}.crystallize.com/${crystallizeConfig.tenantId}/${endpoint}`,
     {
       method: "POST",
       headers: getCrystallizeClientHeaders(),
