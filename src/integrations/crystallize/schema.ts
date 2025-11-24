@@ -24,11 +24,6 @@ export const crystallizeResponseSchema = <TResult>() =>
       (val) => val === null || typeof val === "object",
     ),
     errors: z.array(crystallizeErrorSchema).optional(),
-    extensions: z.object({
-      cost: z.object({
-        requestedQueryCost: z.number(),
-      }),
-    }),
   });
 
 export type CrystallizeResponse<TResult> = z.infer<

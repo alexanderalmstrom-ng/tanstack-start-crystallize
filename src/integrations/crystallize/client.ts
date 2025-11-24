@@ -1,5 +1,3 @@
-import "server-only";
-
 import type { TypedDocumentString } from "@/gql/graphql";
 import { crystallizeConfig } from "./config";
 import { crystallizeResponseSchema } from "./schema";
@@ -24,13 +22,13 @@ type CrystallizeShopApiClientProps<TResult, TVariables> = Omit<
 export function crystallizeApiClient<TResult, TVariables>(
   props: CrystallizeApiClientProps<TResult, TVariables>,
 ) {
-  return crystallizeClient({ ...props });
+  return crystallizeClient<TResult, TVariables>({ ...props });
 }
 
 export function crystallizeShopApiClient<TResult, TVariables>(
   props: CrystallizeShopApiClientProps<TResult, TVariables>,
 ) {
-  return crystallizeClient({ api: "shop-api", ...props });
+  return crystallizeClient<TResult, TVariables>({ api: "shop-api", ...props });
 }
 
 async function crystallizeClient<TResult, TVariables>({
@@ -80,7 +78,6 @@ async function crystallizeClient<TResult, TVariables>({
   return {
     data: validatedData.data,
     errors: validatedData.errors,
-    extensions: validatedData.extensions,
   };
 }
 

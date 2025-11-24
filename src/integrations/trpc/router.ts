@@ -1,8 +1,8 @@
 import { createTRPCRouter } from "./init";
-import { shopifyRouter } from "./routers/shopify";
+import { crystallizeRouter } from "./routers/crystallize";
 
 export const trpcRouter = createTRPCRouter({
-  shopify: shopifyRouter,
+  crystallize: crystallizeRouter,
 });
 
 export type TRPCRouter = typeof trpcRouter;

@@ -8,3 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function isServer() {
   return typeof window === "undefined";
 }
+
+export function normalizeSlug(slug: string) {
+  return slug.startsWith("/") ? slug : `/${slug}`;
+}
