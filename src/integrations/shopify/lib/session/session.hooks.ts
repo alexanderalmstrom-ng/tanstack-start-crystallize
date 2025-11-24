@@ -7,7 +7,7 @@ type SessionData = {
 
 export function useAppSession() {
   return useSession<SessionData>({
-    name: "app-session",
+    name: "shopify-session",
     password: z.string().min(32).parse(process.env.SESSION_SECRET), // At least 32 characters
     cookie: {
       secure: process.env.NODE_ENV === "production",

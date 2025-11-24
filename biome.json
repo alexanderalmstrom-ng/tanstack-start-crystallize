@@ -9,6 +9,8 @@
     "ignoreUnknown": false,
     "includes": [
       "./codegen.ts",
+      "./codegen.shopify.ts",
+      "./codegen.crystallize.ts",
       "**/src/**/*",
       "**/.vscode/**/*",
       "**/index.html",

@@ -12,7 +12,9 @@
     "lint": "biome lint",
     "check": "biome check",
     "codegen": "dotenvx run -- graphql-codegen",
-    "codegen:local": "dotenvx run --env-file .env.local -- graphql-codegen"
+    "codegen:local": "dotenvx run --env-file .env.local -- graphql-codegen",
+    "codegen:crystallize": "dotenvx run --env-file .env.local -- graphql-codegen codegen.crystallize.ts",
+    "codegen:shopify": "dotenvx run --env-file .env.local -- graphql-codegen codegen.shopify.ts"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.51.1",
