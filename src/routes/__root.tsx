@@ -30,8 +30,8 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "TanStack Start Shopify",
-        description: "A Shopify storefront built with TanStack Start",
+        title: "TanStack Start",
+        description: "A storefront built with TanStack Start",
       },
     ],
     links: [
