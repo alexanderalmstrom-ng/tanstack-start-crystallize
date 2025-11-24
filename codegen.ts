@@ -3,10 +3,11 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 const config: CodegenConfig = {
   schema: [
     {
-      [`https://${getShopifyShopName()}.myshopify.com/api/2025-10/graphql.json`]:
+      [`https://api.crystallize.com/${getCrystallizeTenantId()}/catalogue`]:
         {
           headers: {
-            "Shopify-Storefront-Private-Token": getShopifyToken(),
+            "X-Crystallize-Access-Token-Id": getCrystallizeAccessTokenId(),
+            "X-Crystallize-Access-Token-Secret": getCrystallizeAccessTokenSecret(),
           },
         },
     },
@@ -33,20 +34,28 @@ const config: CodegenConfig = {
   },
 };
 
-function getShopifyShopName() {
-  if (process.env.VITE_SHOPIFY_SHOP_NAME) {
-    return process.env.VITE_SHOPIFY_SHOP_NAME;
+function getCrystallizeTenantId() {
+  if (process.env.CRYSTALLIZE_TENANT_IDENTIFIER) {
+    return process.env.CRYSTALLIZE_TENANT_IDENTIFIER;
   }
 
-  throw new Error("No Shopify shop name found");
+  throw new Error("No Crystallize tenant identifier found");
 }
 
-function getShopifyToken() {
-  if (process.env.SHOPIFY_ACCESS_TOKEN) {
-    return process.env.SHOPIFY_ACCESS_TOKEN;
+function getCrystallizeAccessTokenId() {
+  if (process.env.CRYSTALLIZE_ACCESS_TOKEN_ID) {
+    return process.env.CRYSTALLIZE_ACCESS_TOKEN_ID;
   }
 
-  throw new Error("No Shopify token found");
+  throw new Error("No Crystallize access token ID found");
+}
+
+function getCrystallizeAccessTokenSecret() {
+  if (process.env.CRYSTALLIZE_ACCESS_TOKEN_SECRET) {
+    return process.env.CRYSTALLIZE_ACCESS_TOKEN_SECRET;
+  }
+
+  throw new Error("No Crystallize access token secret found");
 }
 
 export default config;

@@ -1,8 +1,9 @@
+import { graphql } from "@/gql";
 import { crystallizeApiClient } from "../client";
 
-export const crystallizeProductBySlugQuery = graphql(`
+const crystallizeProductBySlugQuery = graphql(`
   query CrystallizeProductBySlug($slug: String!) {
-    catalogue(path: $slug, language: "en", pathResolutionMethods: alias) {
+    catalogue(path: $slug) {
       id
       name
     }
