@@ -1,5 +1,5 @@
 import type { TRPCRouterRecord } from "@trpc/server";
-import { getProducts } from "@/lib/product";
+import { getProducts } from "@/integrations/shopify/product/products.query";
 import { createTRPCRouter, publicProcedure } from "./init";
 
 const shopifyRouter = {

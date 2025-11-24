@@ -2,7 +2,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Fragment } from "react/jsx-runtime";
 import { Controller, useForm } from "react-hook-form";
-import { AddToCartSchema, addToCartServerFn } from "@/lib/cart.server";
+import {
+  AddToCartSchema,
+  addToCartServerFn,
+} from "@/integrations/shopify/cart/cart.server";
 import AddToCartButton from "./ProductFormAddToCartButton";
 
 export default function ProductForm({ variantId }: { variantId: string }) {

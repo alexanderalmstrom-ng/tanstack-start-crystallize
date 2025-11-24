@@ -1,5 +1,5 @@
 import { createContext, type ReactNode, use } from "react";
-import { useCartQuery } from "./cart.hooks";
+import { useCartQuery } from "../cart/cart.hooks";
 
 type ShopifySessionContextType = {
   cart: ReturnType<typeof useCartQuery>["data"];
