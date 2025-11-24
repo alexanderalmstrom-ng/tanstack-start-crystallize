@@ -2,10 +2,9 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { Image } from "@unpic/react";
 import z from "zod";
-import { getFragmentData, graphql } from "@/gql";
-import type { ProductBySlugQuery } from "@/gql/graphql";
-import shopifyClient from "@/integrations/shopify/client";
 import ProductForm from "@/integrations/shopify/components/ProductForm/ProductForm";
+import { getShopifyProductBySlug } from "@/integrations/shopify/utils/getShopifyProductBySlug";
+import { resolveShopifyProductImages } from "@/integrations/shopify/utils/resolveShopifyProductImages";
 
 export const Route = createFileRoute("/product/$slug")({
   component: RouteComponent,
@@ -26,7 +25,7 @@ export const Route = createFileRoute("/product/$slug")({
 
 function RouteComponent() {
   const { product } = Route.useLoaderData();
-  const images = resolveProductImages(product);
+  const images = resolveShopifyProductImages(product);
 
   return (
     <div className="grid lg:grid-cols-12">
@@ -58,51 +57,6 @@ function RouteComponent() {
   );
 }
 
-const mediaImageFragment = graphql(`
-  fragment mediaImage on MediaImage {
-    __typename
-    id
-    image {
-      url
-      altText
-      width
-      height
-    }
-  }
-`);
-
-const productBySlugQuery = graphql(`
-  query ProductBySlug($slug: String!) {
-    product(handle: $slug) {
-      id
-      title
-      description
-      media(first: 1) {
-        nodes {
-          ...mediaImage
-        }
-      }
-      variants(first: 10) {
-        nodes {
-          id
-        }
-      }
-    }
-  }
-`);
-
-async function getProductBySlug(slug: string) {
-  return (await shopifyClient(productBySlugQuery, { slug })).data?.product;
-}
-
 const getProductBySlugServerFn = createServerFn()
   .inputValidator(z.object({ slug: z.string() }))
-  .handler(({ data: { slug } }) => getProductBySlug(slug));
-
-const resolveProductImages = (product: ProductBySlugQuery["product"]) => {
-  return product?.media?.nodes.map((node) =>
-    node.__typename === "MediaImage"
-      ? getFragmentData(mediaImageFragment, node)
-      : undefined,
-  );
-};
+  .handler(({ data: { slug } }) => getShopifyProductBySlug(slug));

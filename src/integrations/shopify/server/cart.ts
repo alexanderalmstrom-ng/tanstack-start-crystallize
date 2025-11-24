@@ -2,10 +2,11 @@ import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
 import { getFragmentData } from "@/gql";
 import shopifyClient from "@/integrations/shopify/client";
-import { useAppSession } from "../session/session.hooks";
-import cartFragment from "./cart.fragments";
-import { cartLinesAddMutation, createCartMutation } from "./cart.mutations";
-import { getCartById } from "./cart.utils";
+import cartFragment from "../lib/cart/cart.fragment";
+import createCartMutation from "../lib/cart/cartCreate.mutation";
+import cartLinesAddMutation from "../lib/cart/cartLinesAdd.mutation";
+import { useAppSession } from "../lib/session/session.hooks";
+import { getCartById } from "../utils/getCartById";
 
 export const getCartServerFn = createServerFn({ method: "GET" }).handler(
   async () => {
