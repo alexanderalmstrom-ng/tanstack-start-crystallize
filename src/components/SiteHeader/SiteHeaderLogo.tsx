@@ -1,4 +1,6 @@
-export default function SiteHeaderLogo() {
+import type { ComponentProps } from "react";
+
+export default function SiteHeaderLogo(props: ComponentProps<"svg">) {
   return (
     <svg
       width="180"
@@ -6,6 +8,7 @@ export default function SiteHeaderLogo() {
       viewBox="0 0 180 39"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <title>NO GA</title>
       <g>
