@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { MenuIcon, SearchIcon } from "lucide-react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import SiteHeaderLogo from "./SiteHeaderLogo";
 
 export default function SiteHeader() {
@@ -19,20 +21,20 @@ export default function SiteHeader() {
         <SiteHeaderLogo className="xl:max-w-44 max-w-32" />
       </Link>
       <div className="ml-auto flex grow">
-        <form className="max-xl:hidden">
-          <input
-            className="focus:outline-none placeholder:text-sm"
+        <form className="max-xl:hidden flex flex-row">
+          <Input
+            className="focus:outline-none border-0 placeholder:text-sm rounded-full"
             type="search"
             name="search"
             placeholder="Search"
           />
-          <button type="submit">
+          <Button variant="ghost" type="submit">
             <SearchIcon size={16} />
-          </button>
+          </Button>
         </form>
-        <button className="xl:hidden" type="button">
+        <Button variant="ghost" className="xl:hidden" type="button">
           <SearchIcon size={16} />
-        </button>
+        </Button>
       </div>
     </header>
   );
