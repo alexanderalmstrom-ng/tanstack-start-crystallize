@@ -5,10 +5,10 @@ import { normalizeSlug } from "@/lib/utils";
 import { crystallizeCatalogue } from "../client";
 
 export const getCatalogueByPath = createServerFn({ method: "GET" })
-  .inputValidator(z.object({ slug: z.string().default("/") }))
-  .handler(async ({ data: { slug } }) => {
+  .inputValidator(z.object({ path: z.string().default("/") }))
+  .handler(async ({ data: { path } }) => {
     const response = await crystallizeCatalogue({
-      variables: { path: normalizeSlug(slug) },
+      variables: { path: normalizeSlug(path) },
       query: graphql(`
         query CatalogueByPath($path: String!) {
           catalogue(path: $path) {

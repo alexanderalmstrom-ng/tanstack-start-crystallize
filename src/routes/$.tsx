@@ -6,7 +6,7 @@ export const Route = createFileRoute("/$")({
   component: RouteComponent,
   loader: async ({ params }) => {
     const catalogue = await getCatalogueByPath({
-      data: { slug: params._splat },
+      data: { path: params._splat },
     });
 
     if (!catalogue) {
