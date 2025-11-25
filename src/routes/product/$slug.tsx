@@ -21,8 +21,6 @@ export const Route = createFileRoute("/product/$slug")({
 function RouteComponent() {
   const { product } = Route.useLoaderData();
 
-  console.log(product);
-
   return (
     <div>
       <h1>{product.name}</h1>
