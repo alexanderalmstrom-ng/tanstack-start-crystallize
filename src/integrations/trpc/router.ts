@@ -1,8 +1,10 @@
 import { createTRPCRouter } from "./init";
-import { crystallizeRouter } from "./routers/crystallize";
+import { catalogueRouter } from "./routers/catalogue";
+import { discoveryRouter } from "./routers/discovery";
 
 export const trpcRouter = createTRPCRouter({
-  crystallize: crystallizeRouter,
+  catalogue: catalogueRouter,
+  discovery: discoveryRouter,
 });
 
 export type TRPCRouter = typeof trpcRouter;

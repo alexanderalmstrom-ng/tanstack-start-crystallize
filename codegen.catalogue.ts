@@ -3,19 +3,26 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 const config: CodegenConfig = {
   schema: [
     {
-      [`https://api.crystallize.com/${getCrystallizeTenantId()}/catalogue`]:
-        {
-          headers: {
-            "X-Crystallize-Access-Token-Id": getCrystallizeAccessTokenId(),
-            "X-Crystallize-Access-Token-Secret": getCrystallizeAccessTokenSecret(),
-          },
+      [`https://api.crystallize.com/${getCrystallizeTenantId()}/catalogue`]: {
+        headers: {
+          "X-Crystallize-Access-Token-Id": getCrystallizeAccessTokenId(),
+          "X-Crystallize-Access-Token-Secret":
+            getCrystallizeAccessTokenSecret(),
         },
+      },
     },
   ],
-  documents: ["src/**/*.{ts,tsx}", "!src/gql/**/*"],
+  // overwrite: true,
+  // allowPartialOutputs: true,
+  documents: [
+    "src/integrations/crystallize/catalogue/**/*.{ts,tsx}",
+    "src/integrations/trpc/routers/catalogue.ts",
+    "!src/gql/**/*",
+  ],
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
-    "./src/gql/": {
+    "./src/gql/catalogue/": {
+      // plugins: ["typescript"],
       preset: "client",
       presetConfig: {
         fragmentMasking: { unmaskFunctionName: "getFragmentData" },
@@ -25,7 +32,7 @@ const config: CodegenConfig = {
         useTypeImports: true,
       },
     },
-    "./schema.graphql": {
+    "./catalogue.schema.graphql": {
       plugins: ["schema-ast"],
       config: {
         includeDirectives: true,

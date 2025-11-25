@@ -1,10 +1,10 @@
 import z from "zod";
-import { graphql } from "@/gql";
+import { graphql } from "@/gql/catalogue/gql";
 import { crystallizeApiClient } from "@/integrations/crystallize/client";
 import { normalizeSlug } from "@/lib/utils";
 import { createTRPCRouter, publicProcedure } from "../init";
 
-export const crystallizeRouter = createTRPCRouter({
+export const catalogueRouter = createTRPCRouter({
   catalogueSubtreeByPath: publicProcedure
     .input(z.object({ path: z.string().default("/") }))
     .query(({ input }) => {
@@ -12,21 +12,22 @@ export const crystallizeRouter = createTRPCRouter({
         endpoint: "catalogue",
         variables: { path: normalizeSlug(input.path) },
         query: graphql(`
-        query CatalogueSubtreeByPath($path: String!) {
-          catalogue(path: $path) {
-            subtree {
-              edges {
-                node {
-                  __typename
-                  id
-                  name
-                  path
-                  subtree {
-                    edges {
-                      node {
-                        __typename
-                        id
-                        path
+          query CatalogueSubtreeByPath($path: String!) {
+            catalogue(path: $path) {
+              subtree {
+                edges {
+                  node {
+                    __typename
+                    id
+                    name
+                    path
+                    subtree {
+                      edges {
+                        node {
+                          __typename
+                          id
+                          path
+                        }
                       }
                     }
                   }
@@ -34,15 +35,14 @@ export const crystallizeRouter = createTRPCRouter({
               }
             }
           }
-        }
-      `),
+        `),
       });
     }),
   products: publicProcedure.query(() => {
     return crystallizeApiClient({
       endpoint: "catalogue",
       query: graphql(`
-        query Products {
+        query CatalogueProducts {
           catalogue {
             subtree(type: product) {
               edges {

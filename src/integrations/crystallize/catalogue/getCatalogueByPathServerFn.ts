@@ -1,8 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
-import { graphql } from "@/gql";
+import { graphql } from "@/gql/catalogue";
 import { normalizeSlug } from "@/lib/utils";
-import { crystallizeApiClient } from "./client";
+import { crystallizeApiClient } from "../client";
 
 export const getCatalogueByPathServerFn = createServerFn({ method: "GET" })
   .inputValidator(z.object({ slug: z.string().default("/") }))

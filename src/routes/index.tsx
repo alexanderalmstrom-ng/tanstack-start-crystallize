@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
   component: App,
   loader: async ({ context }) => {
     await context.queryClient.prefetchQuery(
-      context.trpc.crystallize.products.queryOptions(),
+      context.trpc.catalogue.products.queryOptions(),
     );
   },
 });
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
 function App() {
   const trpc = useTRPC();
   const { data } = useQuery(
-    trpc.crystallize.catalogueSubtreeByPath.queryOptions({ path: "/" }),
+    trpc.catalogue.catalogueSubtreeByPath.queryOptions({ path: "/" }),
   );
 
   return (

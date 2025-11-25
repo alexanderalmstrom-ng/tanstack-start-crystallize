@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getCatalogueByPathServerFn } from "@/integrations/crystallize/catalogue";
+import { getCatalogueByPathServerFn } from "@/integrations/crystallize/catalogue/getCatalogueByPathServerFn";
 import { removeLeadingSlash } from "@/lib/utils";
 
 export const Route = createFileRoute("/$")({
