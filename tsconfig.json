@@ -23,16 +23,6 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-    },
-    "plugins": [
-      {
-        "name": "@0no-co/graphqlsp",
-        "schema": "./catalogue.schema.graphql"
-      },
-      {
-        "name": "@0no-co/graphqlsp",
-        "schema": "./discovery.schema.graphql"
-      }
-    ]
+    }
   },
 }

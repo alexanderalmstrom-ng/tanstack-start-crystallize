@@ -1,34 +1,53 @@
 import { env } from "@/env";
-import type { TypedDocumentString } from "@/gql/graphql";
+import type { TypedDocumentString as CatalogueTypedDocumentString } from "@/gql/catalogue/graphql";
+import type { TypedDocumentString as DiscoveryTypedDocumentString } from "@/gql/discovery/graphql";
 import { crystallizeResponseSchema } from "./schema";
 
-type CrystallizeClientProps<TResult, TVariables> = {
-  api?: "api" | "shop-api";
-  endpoint: "catalogue" | "discovery" | "auth/token" | "cart";
-  query: TypedDocumentString<TResult, TVariables>;
+type CrystallizeApi = "api" | "shop-api";
+
+type CrystallizeEndpoint = "catalogue" | "discovery" | "auth/token" | "cart";
+
+type CrystallizeCatalogueClientProps<TResult, TVariables> = {
+  api?: CrystallizeApi;
+  endpoint: CrystallizeEndpoint;
+  query: CatalogueTypedDocumentString<TResult, TVariables>;
   variables?: TVariables;
 };
 
-type CrystallizeApiClientProps<TResult, TVariables> = Omit<
-  CrystallizeClientProps<TResult, TVariables>,
+type CrystallizeDiscoveryClientProps<TResult, TVariables> = {
+  api?: CrystallizeApi;
+  endpoint: CrystallizeEndpoint;
+  query: DiscoveryTypedDocumentString<TResult, TVariables>;
+  variables?: TVariables;
+};
+
+type CrystallizeCatalogueApiClientProps<TResult, TVariables> = Omit<
+  CrystallizeCatalogueClientProps<TResult, TVariables>,
   "api"
 >;
 
-type CrystallizeShopApiClientProps<TResult, TVariables> = Omit<
-  CrystallizeClientProps<TResult, TVariables>,
-  "api"
->;
-
-export function crystallizeApiClient<TResult, TVariables>(
-  props: CrystallizeApiClientProps<TResult, TVariables>,
+export function crystallizeCatalogueApiClient<TResult, TVariables>(
+  props: CrystallizeCatalogueApiClientProps<TResult, TVariables>,
 ) {
-  return crystallizeClient<TResult, TVariables>({ ...props });
+  return crystallizeApiClient<TResult, TVariables>({
+    ...props,
+  });
 }
 
-export function crystallizeShopApiClient<TResult, TVariables>(
-  props: CrystallizeShopApiClientProps<TResult, TVariables>,
+export function crystallizeDiscoveryApiClient<TResult, TVariables>(
+  props: CrystallizeDiscoveryClientProps<TResult, TVariables>,
 ) {
-  return crystallizeClient<TResult, TVariables>({ api: "shop-api", ...props });
+  return crystallizeApiClient<TResult, TVariables>({
+    ...props,
+  });
+}
+
+export function crystallizeApiClient<TResult, TVariables>(
+  props:
+    | CrystallizeCatalogueClientProps<TResult, TVariables>
+    | CrystallizeDiscoveryClientProps<TResult, TVariables>,
+) {
+  return crystallizeClient<TResult, TVariables>({ ...props });
 }
 
 async function crystallizeClient<TResult, TVariables>({
@@ -36,7 +55,9 @@ async function crystallizeClient<TResult, TVariables>({
   endpoint,
   query,
   variables,
-}: CrystallizeClientProps<TResult, TVariables>) {
+}:
+  | CrystallizeCatalogueClientProps<TResult, TVariables>
+  | CrystallizeDiscoveryClientProps<TResult, TVariables>) {
   const response = await fetch(
     `https://${api}.crystallize.com/${env.CRYSTALLIZE_TENANT_IDENTIFIER}/${endpoint}`,
     {
