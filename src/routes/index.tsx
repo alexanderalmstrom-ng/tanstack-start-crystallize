@@ -15,7 +15,6 @@ export const Route = createFileRoute("/")({
 
 function App() {
   const trpc = useTRPC();
-
   const { data } = useQuery(
     trpc.crystallize.catalogueSubtreeByPath.queryOptions({ path: "/" }),
   );

@@ -1,19 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import z from "zod";
 import { getCatalogueByPathServerFn } from "@/integrations/crystallize/catalogue";
 import { removeLeadingSlash } from "@/lib/utils";
 
 export const Route = createFileRoute("/$")({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const { data: slug, error } = z.string().safeParse(params._splat);
-
-    if (error) {
-      throw notFound();
-    }
-
     const catalogue = await getCatalogueByPathServerFn({
-      data: { slug },
+      data: { slug: params._splat },
     });
 
     if (!catalogue) {
