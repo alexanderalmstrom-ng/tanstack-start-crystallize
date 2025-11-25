@@ -23,7 +23,7 @@ const config: CodegenConfig = {
         useTypeImports: true,
       },
     },
-    "./discovery.schema.graphql": {
+    "./codegen/discovery.schema.graphql": {
       plugins: ["schema-ast"],
       config: {
         includeDirectives: true,
