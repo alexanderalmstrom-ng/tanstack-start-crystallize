@@ -1,4 +1,4 @@
-import SiteHeaderLogo from "./SiteHeader/SiteHeaderLogo";
+import SiteHeaderLogo from "./SiteHeaderLogo";
 
 export default function SiteHeader() {
   return (
