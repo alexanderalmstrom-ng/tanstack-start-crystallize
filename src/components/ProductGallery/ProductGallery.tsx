@@ -20,10 +20,10 @@ export default function ProductGallery({
         return (
           <picture
             key={image.url}
-            className="shrink-0 basis-full snap-start mix-blend-multiply"
+            className="shrink-0 basis-full snap-start bg-secondary"
           >
             <img
-              className="w-full h-full object-contain aspect-square"
+              className="w-full h-full object-contain aspect-square mix-blend-multiply"
               src={image.url}
               width={image.width ?? undefined}
               height={image.height ?? undefined}
