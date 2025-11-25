@@ -22,14 +22,11 @@ export const Route = createFileRoute("/$")({
 
 function RouteComponent() {
   const { product } = Route.useLoaderData();
+  const variantImages = product.variants?.flatMap((variant) => variant?.images);
 
   return (
     <div className="grid lg:grid-cols-[2fr_minmax(32rem,1fr)]">
-      <ProductGallery
-        images={
-          product.variants?.flatMap((variant) => variant?.images ?? []) ?? []
-        }
-      />
+      <ProductGallery images={variantImages} />
       <ProductDetails product={product} />
     </div>
   );

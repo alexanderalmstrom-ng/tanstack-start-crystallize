@@ -4,7 +4,7 @@ import { imageFragment } from "@/integrations/crystallize/discovery/fragments/im
 export default function ProductGallery({
   images,
 }: {
-  images: (FragmentType<typeof imageFragment> | null)[] | null | undefined;
+  images: (FragmentType<typeof imageFragment> | null | undefined)[] | undefined;
 }) {
   if (!images) return null;
 
