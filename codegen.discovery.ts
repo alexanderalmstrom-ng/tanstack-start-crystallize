@@ -1,11 +1,8 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
+import codegenConfig from "./codegen.config.mts";
 
 const config: CodegenConfig = {
-  schema: [
-    {
-      [`https://api.crystallize.com/${getCrystallizeTenantId()}/discovery`]: {},
-    },
-  ],
+  schema: `https://api.crystallize.com/${codegenConfig.tenantId}/discovery`,
   // overwrite: true,
   // allowPartialOutputs: true,
   documents: [
@@ -34,13 +31,5 @@ const config: CodegenConfig = {
     },
   },
 };
-
-function getCrystallizeTenantId() {
-  if (process.env.CRYSTALLIZE_TENANT_IDENTIFIER) {
-    return process.env.CRYSTALLIZE_TENANT_IDENTIFIER;
-  }
-
-  throw new Error("No Crystallize tenant identifier found");
-}
 
 export default config;

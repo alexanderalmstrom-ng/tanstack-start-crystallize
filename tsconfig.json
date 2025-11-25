@@ -25,10 +25,6 @@
       "@/*": ["./src/*"],
     },
     "plugins": [
-      // {
-      //   "name": "@0no-co/graphqlsp",
-      //   "schema": "./schema.graphql"
-      // }
       {
         "name": "@0no-co/graphqlsp",
         "schema": "./catalogue.schema.graphql"
@@ -38,5 +34,5 @@
         "schema": "./discovery.schema.graphql"
       }
     ]
-  }
+  },
 }

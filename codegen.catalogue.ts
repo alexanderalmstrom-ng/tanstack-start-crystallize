@@ -1,13 +1,13 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
+import codegenConfig from "./codegen.config.mts";
 
 const config: CodegenConfig = {
   schema: [
     {
-      [`https://api.crystallize.com/${getCrystallizeTenantId()}/catalogue`]: {
+      [`https://api.crystallize.com/${codegenConfig.tenantId}/catalogue`]: {
         headers: {
-          "X-Crystallize-Access-Token-Id": getCrystallizeAccessTokenId(),
-          "X-Crystallize-Access-Token-Secret":
-            getCrystallizeAccessTokenSecret(),
+          "X-Crystallize-Access-Token-Id": codegenConfig.accessTokenId,
+          "X-Crystallize-Access-Token-Secret": codegenConfig.accessTokenSecret,
         },
       },
     },
@@ -40,29 +40,5 @@ const config: CodegenConfig = {
     },
   },
 };
-
-function getCrystallizeTenantId() {
-  if (process.env.CRYSTALLIZE_TENANT_IDENTIFIER) {
-    return process.env.CRYSTALLIZE_TENANT_IDENTIFIER;
-  }
-
-  throw new Error("No Crystallize tenant identifier found");
-}
-
-function getCrystallizeAccessTokenId() {
-  if (process.env.CRYSTALLIZE_ACCESS_TOKEN_ID) {
-    return process.env.CRYSTALLIZE_ACCESS_TOKEN_ID;
-  }
-
-  throw new Error("No Crystallize access token ID found");
-}
-
-function getCrystallizeAccessTokenSecret() {
-  if (process.env.CRYSTALLIZE_ACCESS_TOKEN_SECRET) {
-    return process.env.CRYSTALLIZE_ACCESS_TOKEN_SECRET;
-  }
-
-  throw new Error("No Crystallize access token secret found");
-}
 
 export default config;
