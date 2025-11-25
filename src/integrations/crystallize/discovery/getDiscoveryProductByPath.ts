@@ -7,7 +7,7 @@ import { crystallizeDiscovery } from "../client";
 export const getDiscoveryProductByPath = createServerFn({
   method: "GET",
 })
-  .inputValidator(z.object({ path: z.string() }))
+  .inputValidator(z.object({ path: z.string().default("/") }))
   .handler(async ({ data: { path } }) => {
     const product = await crystallizeDiscovery({
       variables: { path: normalizeSlug(path) },
@@ -26,5 +26,5 @@ export const getDiscoveryProductByPath = createServerFn({
       `),
     });
 
-    return product?.data?.browse?.product?.hits;
+    return product?.data?.browse?.product?.hits?.[0];
   });

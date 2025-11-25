@@ -1,56 +1,30 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getCatalogueByPath } from "@/integrations/crystallize/catalogue/getCatalogueByPath";
-import { removeLeadingSlash } from "@/lib/utils";
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import { getDiscoveryProductByPath } from "@/integrations/crystallize/discovery/getDiscoveryProductByPath";
 
 export const Route = createFileRoute("/$")({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const catalogue = await getCatalogueByPath({
+    const product = await getDiscoveryProductByPath({
       data: { path: params._splat },
     });
 
-    if (!catalogue) {
+    if (!product) {
       throw notFound();
     }
 
     return {
-      catalogue,
+      product,
     };
   },
 });
 
 function RouteComponent() {
-  const { catalogue } = Route.useLoaderData();
+  const { product } = Route.useLoaderData();
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">{catalogue.name}</h1>
-      <p>{catalogue.path}</p>
-      <div>
-        {catalogue?.subtree?.edges?.map((edge) => {
-          if (!edge.node.path) {
-            return null;
-          }
-
-          return (
-            <div key={edge.node.id}>
-              <Link
-                to={`/$`}
-                params={{ _splat: removeLeadingSlash(edge.node.path) }}
-              >
-                <h2>{edge.node.name}</h2>
-              </Link>
-            </div>
-          );
-        })}
-      </div>
-      <Link
-        to="/$"
-        params={{ _splat: removeLeadingSlash(catalogue.parent?.path ?? "/") }}
-        className="underline"
-      >
-        Back
-      </Link>
+      <h1 className="text-2xl font-bold">{product.name}</h1>
+      <p>{product.path}</p>
     </div>
   );
 }

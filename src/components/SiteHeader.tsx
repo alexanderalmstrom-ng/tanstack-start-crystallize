@@ -1,3 +1,9 @@
+import SiteHeaderLogo from "./SiteHeader/SiteHeaderLogo";
+
 export default function SiteHeader() {
-  return <header>header</header>;
+  return (
+    <header>
+      <SiteHeaderLogo />
+    </header>
+  );
 }
