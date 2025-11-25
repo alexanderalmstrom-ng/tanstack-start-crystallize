@@ -1,17 +1,18 @@
 import { graphql } from "@/gql/discovery/gql";
-import { crystallizeApiClient } from "@/integrations/crystallize/client";
+import { crystallizeDiscovery } from "@/integrations/crystallize/client";
 import { createTRPCRouter, publicProcedure } from "../init";
 
 export const discoveryRouter = createTRPCRouter({
   products: publicProcedure.query(() => {
-    return crystallizeApiClient({
-      endpoint: "discovery",
+    return crystallizeDiscovery({
       query: graphql(`
         query DiscoveryProducts {
           browse {
             product {
               hits {
+                id
                 name
+                path
               }
             }
           }

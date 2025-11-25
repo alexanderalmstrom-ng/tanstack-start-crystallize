@@ -1,15 +1,14 @@
 import z from "zod";
 import { graphql } from "@/gql/catalogue/gql";
-import { crystallizeApiClient } from "@/integrations/crystallize/client";
+import { crystallizeCatalogue } from "@/integrations/crystallize/client";
 import { normalizeSlug } from "@/lib/utils";
 import { createTRPCRouter, publicProcedure } from "../init";
 
 export const catalogueRouter = createTRPCRouter({
   catalogueSubtreeByPath: publicProcedure
     .input(z.object({ path: z.string().default("/") }))
-    .query(({ input }) => {
-      return crystallizeApiClient({
-        endpoint: "catalogue",
+    .query(async ({ input }) => {
+      const response = await crystallizeCatalogue({
         variables: { path: normalizeSlug(input.path) },
         query: graphql(`
           query CatalogueSubtreeByPath($path: String!) {
@@ -37,10 +36,11 @@ export const catalogueRouter = createTRPCRouter({
           }
         `),
       });
+
+      return response.data?.catalogue?.subtree?.edges?.map((edge) => edge.node);
     }),
-  products: publicProcedure.query(() => {
-    return crystallizeApiClient({
-      endpoint: "catalogue",
+  products: publicProcedure.query(async () => {
+    const response = await crystallizeCatalogue({
       query: graphql(`
         query CatalogueProducts {
           catalogue {
@@ -58,5 +58,7 @@ export const catalogueRouter = createTRPCRouter({
         }
       `),
     });
+
+    return response.data?.catalogue?.subtree?.edges?.map((edge) => edge.node);
   }),
 });

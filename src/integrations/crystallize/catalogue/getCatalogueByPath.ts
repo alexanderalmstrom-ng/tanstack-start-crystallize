@@ -2,13 +2,12 @@ import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
 import { graphql } from "@/gql/catalogue";
 import { normalizeSlug } from "@/lib/utils";
-import { crystallizeApiClient } from "../client";
+import { crystallizeCatalogue } from "../client";
 
 export const getCatalogueByPathServerFn = createServerFn({ method: "GET" })
   .inputValidator(z.object({ slug: z.string().default("/") }))
   .handler(async ({ data: { slug } }) => {
-    const response = await crystallizeApiClient({
-      endpoint: "catalogue",
+    const response = await crystallizeCatalogue({
       variables: { path: normalizeSlug(slug) },
       query: graphql(`
         query CatalogueByPath($path: String!) {

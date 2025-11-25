@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Fragment } from "react/jsx-runtime";
+import { getDiscoveryProductsServerFn } from "@/integrations/crystallize/discovery/getDiscoveryProducts";
 import { useTRPC } from "@/integrations/trpc/react";
 import { removeLeadingSlash } from "@/lib/utils";
 
@@ -8,32 +9,44 @@ export const Route = createFileRoute("/")({
   component: App,
   loader: async ({ context }) => {
     await context.queryClient.prefetchQuery(
-      context.trpc.catalogue.products.queryOptions(),
+      context.trpc.catalogue.catalogueSubtreeByPath.queryOptions({ path: "/" }),
     );
+
+    const products = await getDiscoveryProductsServerFn();
+
+    return {
+      products,
+    };
   },
 });
 
 function App() {
+  const { products } = Route.useLoaderData();
   const trpc = useTRPC();
-  const { data } = useQuery(
+  const { data: subtree } = useQuery(
     trpc.catalogue.catalogueSubtreeByPath.queryOptions({ path: "/" }),
   );
 
   return (
     <Fragment>
       <div>
-        {data?.data?.catalogue?.subtree?.edges?.map((edge) => {
-          if (!edge.node.path) {
+        {products?.map(
+          (product) => product && <div key={product.id}>{product.name}</div>,
+        )}
+      </div>
+      <div>
+        {subtree?.map((item) => {
+          if (!item.path) {
             return null;
           }
 
           return (
             <Link
-              key={edge.node.id}
+              key={item.id}
               to={`/$`}
-              params={{ _splat: removeLeadingSlash(edge.node.path) }}
+              params={{ _splat: removeLeadingSlash(item.path) }}
             >
-              <h2>{edge.node.name}</h2>
+              <h2>{item.name}</h2>
             </Link>
           );
         })}

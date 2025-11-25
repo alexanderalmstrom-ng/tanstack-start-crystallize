@@ -21,33 +21,32 @@ type CrystallizeDiscoveryClientProps<TResult, TVariables> = {
   variables?: TVariables;
 };
 
-type CrystallizeCatalogueApiClientProps<TResult, TVariables> = Omit<
+type CrystallizeCatalogueApiProps<TResult, TVariables> = Omit<
   CrystallizeCatalogueClientProps<TResult, TVariables>,
-  "api"
+  "api" | "endpoint"
 >;
 
-export function crystallizeCatalogueApiClient<TResult, TVariables>(
-  props: CrystallizeCatalogueApiClientProps<TResult, TVariables>,
+type CrystallizeDiscoveryApiProps<TResult, TVariables> = Omit<
+  CrystallizeDiscoveryClientProps<TResult, TVariables>,
+  "api" | "endpoint"
+>;
+
+export function crystallizeCatalogue<TResult, TVariables>(
+  props: CrystallizeCatalogueApiProps<TResult, TVariables>,
 ) {
-  return crystallizeApiClient<TResult, TVariables>({
+  return crystallizeClient<TResult, TVariables>({
     ...props,
+    endpoint: "catalogue",
   });
 }
 
-export function crystallizeDiscoveryApiClient<TResult, TVariables>(
-  props: CrystallizeDiscoveryClientProps<TResult, TVariables>,
+export function crystallizeDiscovery<TResult, TVariables>(
+  props: CrystallizeDiscoveryApiProps<TResult, TVariables>,
 ) {
-  return crystallizeApiClient<TResult, TVariables>({
+  return crystallizeClient<TResult, TVariables>({
     ...props,
+    endpoint: "discovery",
   });
-}
-
-export function crystallizeApiClient<TResult, TVariables>(
-  props:
-    | CrystallizeCatalogueClientProps<TResult, TVariables>
-    | CrystallizeDiscoveryClientProps<TResult, TVariables>,
-) {
-  return crystallizeClient<TResult, TVariables>({ ...props });
 }
 
 async function crystallizeClient<TResult, TVariables>({
