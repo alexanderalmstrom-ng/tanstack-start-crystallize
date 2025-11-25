@@ -4,16 +4,18 @@ import SiteHeaderLogo from "./SiteHeaderLogo";
 
 export default function SiteHeader() {
   return (
-    <header className="px-5 py-3.5 lg:px-10 lg:py-8 grid lg:grid-cols-[1fr_auto_1fr] items-center gap-8">
-      <nav className="flex gap-8 items-center justify-start max-lg:hidden">
+    <header className="px-5 py-3.5 xl:px-10 xl:py-8 grid xl:grid-cols-[1fr_auto_1fr] items-center gap-8">
+      <nav className="flex gap-8 items-center justify-start max-xl:hidden">
         <Link to="/">Products</Link>
         <Link to="/">News</Link>
         <Link to="/">Campaigns</Link>
         <Link to="/">Services</Link>
         <Link to="/">Journal</Link>
       </nav>
-      <SiteHeaderLogo className="justify-self-center lg:max-w-44 max-w-32" />
-      <form className="flex grow justify-end max-lg:hidden">
+      <Link to="/">
+        <SiteHeaderLogo className="justify-self-center xl:max-w-44 max-w-32" />
+      </Link>
+      <form className="flex grow justify-end max-xl:hidden">
         <input
           className="focus:outline-none placeholder:text-sm"
           type="search"

@@ -20,7 +20,7 @@ function App() {
   return (
     <Fragment>
       <div>
-        <h2 className="text-2xl font-bold">Products </h2>
+        <h2 className="text-2xl tracking-tight">Products</h2>
         {products?.map(
           (product) =>
             product && (
