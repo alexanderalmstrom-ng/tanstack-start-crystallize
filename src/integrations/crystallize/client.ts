@@ -1,5 +1,5 @@
+import { env } from "@/env";
 import type { TypedDocumentString } from "@/gql/graphql";
-import { crystallizeConfig } from "./config";
 import { crystallizeResponseSchema } from "./schema";
 
 type CrystallizeClientProps<TResult, TVariables> = {
@@ -38,7 +38,7 @@ async function crystallizeClient<TResult, TVariables>({
   variables,
 }: CrystallizeClientProps<TResult, TVariables>) {
   const response = await fetch(
-    `https://${api}.crystallize.com/${crystallizeConfig.tenantId}/${endpoint}`,
+    `https://${api}.crystallize.com/${env.CRYSTALLIZE_TENANT_IDENTIFIER}/${endpoint}`,
     {
       method: "POST",
       headers: getCrystallizeClientHeaders(),
@@ -84,7 +84,7 @@ async function crystallizeClient<TResult, TVariables>({
 function getCrystallizeClientHeaders() {
   return {
     "Content-Type": "application/json",
-    "X-Crystallize-Access-Token-Id": crystallizeConfig.tokenId,
-    "X-Crystallize-Access-Token-Secret": crystallizeConfig.tokenSecret,
+    "X-Crystallize-Access-Token-Id": env.CRYSTALLIZE_ACCESS_TOKEN_ID,
+    "X-Crystallize-Access-Token-Secret": env.CRYSTALLIZE_ACCESS_TOKEN_SECRET,
   };
 }
