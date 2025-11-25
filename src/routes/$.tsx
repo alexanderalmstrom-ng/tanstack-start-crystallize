@@ -1,15 +1,13 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getCatalogueByPathServerFn } from "@/integrations/crystallize/catalogue/getCatalogueByPath";
-import { getDiscoveryProductsServerFn } from "@/integrations/crystallize/discovery/getDiscoveryProducts";
+import { getCatalogueByPath } from "@/integrations/crystallize/catalogue/getCatalogueByPath";
 import { removeLeadingSlash } from "@/lib/utils";
 
 export const Route = createFileRoute("/$")({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const catalogue = await getCatalogueByPathServerFn({
+    const catalogue = await getCatalogueByPath({
       data: { slug: params._splat },
     });
-    const products = await getDiscoveryProductsServerFn();
 
     if (!catalogue) {
       throw notFound();
@@ -17,21 +15,15 @@ export const Route = createFileRoute("/$")({
 
     return {
       catalogue,
-      products,
     };
   },
 });
 
 function RouteComponent() {
-  const { catalogue, products } = Route.useLoaderData();
+  const { catalogue } = Route.useLoaderData();
 
   return (
     <div>
-      <div>
-        {products?.map(
-          (product) => product && <div key={product.id}>{product.name}</div>,
-        )}
-      </div>
       <h1 className="text-2xl font-bold">{catalogue.name}</h1>
       <p>{catalogue.path}</p>
       <div>

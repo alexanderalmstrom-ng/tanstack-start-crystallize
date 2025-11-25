@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Fragment } from "react/jsx-runtime";
-import { getDiscoveryProductsServerFn } from "@/integrations/crystallize/discovery/getDiscoveryProducts";
+import { getDiscoveryProducts } from "@/integrations/crystallize/discovery/getDiscoveryProducts";
 import { useTRPC } from "@/integrations/trpc/react";
 import { removeLeadingSlash } from "@/lib/utils";
 
@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
       context.trpc.catalogue.catalogueSubtreeByPath.queryOptions({ path: "/" }),
     );
 
-    const products = await getDiscoveryProductsServerFn();
+    const products = await getDiscoveryProducts();
 
     return {
       products,
