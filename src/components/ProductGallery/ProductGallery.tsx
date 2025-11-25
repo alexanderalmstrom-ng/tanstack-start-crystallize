@@ -18,9 +18,12 @@ export default function ProductGallery({
         if (!image?.url) return null;
 
         return (
-          <picture key={image.url} className="shrink-0 basis-full snap-start">
+          <picture
+            key={image.url}
+            className="shrink-0 basis-full snap-start mix-blend-multiply"
+          >
             <img
-              className="w-full h-full object-cover aspect-square mix-blend-multiply"
+              className="w-full h-full object-contain aspect-square"
               src={image.url}
               width={image.width ?? undefined}
               height={image.height ?? undefined}
