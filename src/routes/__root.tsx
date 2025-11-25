@@ -34,10 +34,6 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
     ],
     links: [
       {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      {
         rel: "preload",
         href: "/fonts/PortraitText-Regular.woff",
         as: "font",
@@ -50,6 +46,10 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
         as: "font",
         type: "font/woff",
         crossorigin: "anonymous",
+      },
+      {
+        rel: "stylesheet",
+        href: appCss,
       },
     ],
   }),
