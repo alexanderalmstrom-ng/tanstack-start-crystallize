@@ -21,10 +21,7 @@ export const getDiscoveryProductByPath = createServerFn({
                 path
                 variants {
                   images {
-                    url
-                    altText
-                    width
-                    height
+                    ...image
                   }
                 }
               }
