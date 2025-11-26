@@ -30,6 +30,7 @@ export const Route = createFileRoute("/$")({
       product,
     };
   },
+  pendingComponent: () => <div>Loading...</div>,
 });
 
 function RouteComponent() {
@@ -52,11 +53,14 @@ function ProductGalleryCarousel({
 }: {
   images: (FragmentType<typeof imageFragment> | null | undefined)[] | undefined;
 }) {
-  if (!images) return null;
+  if (!images || images.length === 0) return null;
 
   const imagesWithUrl = images
+    .filter((image) => image !== null && image !== undefined)
     .map((image) => getFragmentData(imageFragment, image))
     .filter((image) => image?.url);
+
+  if (imagesWithUrl.length === 0) return null;
 
   return (
     <Carousel className="bg-secondary" opts={{ align: "start", loop: true }}>
