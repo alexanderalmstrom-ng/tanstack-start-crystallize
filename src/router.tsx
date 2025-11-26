@@ -1,14 +1,14 @@
 import { createRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 import NotFound from "./components/NotFound/NotFound";
-import * as TanstackQuery from "./integrations/tanstack-query/root-provider";
+import * as TanstackQueryRootProvider from "./integrations/tanstack-query/root-provider";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 
 // Create a new router instance
 export const getRouter = () => {
-  const providerContext = TanstackQuery.getProviderContext();
+  const providerContext = TanstackQueryRootProvider.getProviderContext();
 
   const router = createRouter({
     routeTree,
@@ -20,9 +20,9 @@ export const getRouter = () => {
     defaultNotFoundComponent: () => <NotFound />,
     Wrap: (props: { children: React.ReactNode }) => {
       return (
-        <TanstackQuery.Provider {...providerContext}>
+        <TanstackQueryRootProvider.Provider {...providerContext}>
           {props.children}
-        </TanstackQuery.Provider>
+        </TanstackQueryRootProvider.Provider>
       );
     },
   });

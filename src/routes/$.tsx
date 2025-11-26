@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/select";
 import type { FragmentType } from "@/gql/discovery";
 import type { ProductFragment } from "@/gql/discovery/graphql";
+import { addToCartServerFn } from "@/integrations/server/cart/addToCartServerFn";
 import type { imageFragment } from "@/integrations/server/discovery/fragments/image";
 import { getDiscoveryProductByPathServerFn } from "@/integrations/server/discovery/getDiscoveryProductByPathServerFn";
 import { resolveImagesFragment } from "@/integrations/server/discovery/utils/resolveImagesFragment";
@@ -131,8 +132,16 @@ function ProductForm({ product }: { product: ProductFragment }) {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof productFormSchema>) => {
-    console.log("data", data);
+  const onSubmit = async (data: z.infer<typeof productFormSchema>) => {
+    console.log("onSubmit data", data);
+
+    const addToCartResponse = await addToCartServerFn({
+      data: {
+        items: [{ sku: data.variant, quantity: 1 }],
+      },
+    });
+
+    console.log("addToCartResponse", addToCartResponse);
   };
 
   return (
@@ -145,8 +154,8 @@ function ProductForm({ product }: { product: ProductFragment }) {
             <FormItem>
               <FormLabel htmlFor={field.name}>Variant</FormLabel>
               <FormControl>
-                <Select {...field}>
-                  <SelectTrigger className="w-full" id={field.name}>
+                <Select {...field} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a variant" />
                   </SelectTrigger>
                   <SelectContent>

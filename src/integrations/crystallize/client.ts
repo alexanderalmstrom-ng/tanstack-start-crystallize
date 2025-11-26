@@ -1,24 +1,33 @@
 import { env } from "@/env";
+import type { TypedDocumentString as CartTypedDocumentString } from "@/gql/cart/graphql";
 import type { TypedDocumentString as CatalogueTypedDocumentString } from "@/gql/catalogue/graphql";
 import type { TypedDocumentString as DiscoveryTypedDocumentString } from "@/gql/discovery/graphql";
 import { crystallizeResponseSchema } from "./schema";
 
-type CrystallizeApi = "api" | "shop-api";
-
 type CrystallizeEndpoint = "catalogue" | "discovery" | "auth/token" | "cart";
 
 type CrystallizeCatalogueClientProps<TResult, TVariables> = {
-  api?: CrystallizeApi;
+  api?: "api";
   endpoint: CrystallizeEndpoint;
   query: CatalogueTypedDocumentString<TResult, TVariables>;
   variables?: TVariables;
+  headers?: Record<string, string>;
 };
 
 type CrystallizeDiscoveryClientProps<TResult, TVariables> = {
-  api?: CrystallizeApi;
+  api?: "api";
   endpoint: CrystallizeEndpoint;
   query: DiscoveryTypedDocumentString<TResult, TVariables>;
   variables?: TVariables;
+  headers?: Record<string, string>;
+};
+
+type CrystallizeCartClientProps<TResult, TVariables> = {
+  api?: "shop-api";
+  endpoint: CrystallizeEndpoint;
+  query: CartTypedDocumentString<TResult, TVariables>;
+  variables?: TVariables;
+  headers?: Record<string, string>;
 };
 
 type CrystallizeCatalogueApiProps<TResult, TVariables> = Omit<
@@ -28,6 +37,11 @@ type CrystallizeCatalogueApiProps<TResult, TVariables> = Omit<
 
 type CrystallizeDiscoveryApiProps<TResult, TVariables> = Omit<
   CrystallizeDiscoveryClientProps<TResult, TVariables>,
+  "api" | "endpoint"
+>;
+
+type CrystallizeCartApiProps<TResult, TVariables> = Omit<
+  CrystallizeCartClientProps<TResult, TVariables>,
   "api" | "endpoint"
 >;
 
@@ -50,7 +64,7 @@ export function crystallizeDiscovery<TResult, TVariables>(
 }
 
 export function crystallizeCart<TResult, TVariables>(
-  props: CrystallizeDiscoveryApiProps<TResult, TVariables>,
+  props: CrystallizeCartApiProps<TResult, TVariables>,
 ) {
   return crystallizeClient<TResult, TVariables>({
     ...props,
@@ -64,9 +78,11 @@ async function crystallizeClient<TResult, TVariables>({
   endpoint,
   query,
   variables,
+  headers,
 }:
   | CrystallizeCatalogueClientProps<TResult, TVariables>
-  | CrystallizeDiscoveryClientProps<TResult, TVariables>) {
+  | CrystallizeDiscoveryClientProps<TResult, TVariables>
+  | CrystallizeCartClientProps<TResult, TVariables>) {
   const response = await fetch(
     `https://${api}.crystallize.com/${env.CRYSTALLIZE_TENANT_IDENTIFIER}/${endpoint}`,
     {
@@ -76,6 +92,7 @@ async function crystallizeClient<TResult, TVariables>({
         "X-Crystallize-Access-Token-Id": env.CRYSTALLIZE_ACCESS_TOKEN_ID,
         "X-Crystallize-Access-Token-Secret":
           env.CRYSTALLIZE_ACCESS_TOKEN_SECRET,
+        ...(headers || {}),
       },
       body: JSON.stringify({
         query: query.toString(),

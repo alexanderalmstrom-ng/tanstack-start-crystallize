@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query";
+import { SessionProvider } from "@/contexts/SessionProvider";
 import type { TRPCRouter } from "@/integrations/trpc/router";
 import SiteHeader from "../components/SiteHeader/SiteHeader";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
@@ -63,8 +64,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="flex min-h-screen flex-col antialiased">
-        <SiteHeader />
-        <main className="grow">{children}</main>
+        <SessionProvider>
+          <SiteHeader />
+          <main className="grow">{children}</main>
+        </SessionProvider>
         <TanStackDevtools
           config={{
             position: "bottom-right",
