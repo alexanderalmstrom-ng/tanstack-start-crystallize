@@ -112,20 +112,7 @@ function ProductDetails({ product }: { product: ProductFragment }) {
         <h1 className="text-2xl lg:text-4xl">{product.name}</h1>
       </Heading>
       <Price amount={product.defaultVariant?.defaultPrice} />
-      <VariantSelector product={product} />
       <ProductForm product={product} />
-    </div>
-  );
-}
-
-function VariantSelector({ product }: { product: ProductFragment }) {
-  const variants = resolveProductVariantsFragment(product?.variants);
-
-  return (
-    <div>
-      {variants?.map(
-        (variant) => variant && <div key={variant.sku}>{variant.name}</div>,
-      )}
     </div>
   );
 }
