@@ -7,6 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Heading } from "@/components/ui/heading";
 import { type FragmentType, getFragmentData } from "@/gql/discovery";
 import type { Product } from "@/gql/discovery/graphql";
 import { imageFragment } from "@/integrations/server/discovery/fragments/image";
@@ -115,7 +116,9 @@ function CarouselProductGallery({
 function ProductDetails({ product }: { product: Product }) {
   return (
     <div className="px-4 py-6 lg:p-10">
-      <h1 className="text-2xl lg:text-4xl tracking-tight">{product.name}</h1>
+      <Heading asChild>
+        <h1 className="text-2xl lg:text-4xl">{product.name}</h1>
+      </Heading>
     </div>
   );
 }
