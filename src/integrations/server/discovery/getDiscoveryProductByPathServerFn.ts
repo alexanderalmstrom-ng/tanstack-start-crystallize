@@ -16,14 +16,7 @@ export const getDiscoveryProductByPathServerFn = createServerFn({
           browse {
             product(path: $path) {
               hits {
-                id
-                name
-                path
-                variants {
-                  images {
-                    ...image
-                  }
-                }
+                ...product
               }
             }
           }
