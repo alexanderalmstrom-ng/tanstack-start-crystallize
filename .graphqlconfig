@@ -13,6 +13,14 @@
       "Discovery API": {
         "url": "https://api.crystallize.com/${env:CRYSTALLIZE_TENANT_IDENTIFIER}/discovery",
         "introspect": true
+      },
+      "Cart API": {
+        "url": "https://shop-api.crystallize.com/${env:CRYSTALLIZE_TENANT_IDENTIFIER}/cart",
+        "headers": {
+          "X-Crystallize-Access-Token-Id": "${env:CRYSTALLIZE_ACCESS_TOKEN_ID}",
+          "X-Crystallize-Access-Token-Secret": "${env:CRYSTALLIZE_ACCESS_TOKEN_SECRET}"
+        },
+        "introspect": true
       }
     }
   }

@@ -49,6 +49,16 @@ export function crystallizeDiscovery<TResult, TVariables>(
   });
 }
 
+export function crystallizeCart<TResult, TVariables>(
+  props: CrystallizeDiscoveryApiProps<TResult, TVariables>,
+) {
+  return crystallizeClient<TResult, TVariables>({
+    ...props,
+    api: "shop-api",
+    endpoint: "cart",
+  });
+}
+
 async function crystallizeClient<TResult, TVariables>({
   api = "api",
   endpoint,
