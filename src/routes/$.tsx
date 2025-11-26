@@ -36,48 +36,13 @@ function RouteComponent() {
 
   return (
     <div className="grid lg:grid-cols-[2fr_minmax(32rem,1fr)]">
-      <CarouselProductGallery images={variantImages} />
+      <ProductGalleryCarousel images={variantImages} />
       <ProductDetails product={product} />
     </div>
   );
 }
 
-export default function ScrollableProductGallery({
-  images,
-}: {
-  images: (FragmentType<typeof imageFragment> | null | undefined)[] | undefined;
-}) {
-  if (!images) return null;
-
-  const imagesWithUrl = images
-    .map((image) => getFragmentData(imageFragment, image))
-    .filter((image) => image?.url);
-
-  return (
-    <div className="bg-secondary no-scrollbar flex snap-x snap-mandatory flex-row flex-nowrap overflow-x-auto overflow-y-hidden">
-      {imagesWithUrl.map((image) => {
-        if (!image?.url) return null;
-
-        return (
-          <picture
-            key={image.url}
-            className="shrink-0 basis-full snap-start bg-secondary"
-          >
-            <Image
-              src={image.url}
-              width={image.width ?? 2000}
-              height={image.height ?? 2000}
-              alt={image.altText ?? ""}
-              className="w-full h-full object-contain aspect-square mix-blend-multiply"
-            />
-          </picture>
-        );
-      })}
-    </div>
-  );
-}
-
-function CarouselProductGallery({
+function ProductGalleryCarousel({
   images,
 }: {
   images: (FragmentType<typeof imageFragment> | null | undefined)[] | undefined;
