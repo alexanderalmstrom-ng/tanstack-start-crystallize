@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import type { ProductFragment } from "@/gql/discovery/graphql";
 import { addToCartServerFn } from "@/integrations/server/cart/addToCartServerFn";
-import resolveProductVariantsFragment from "@/integrations/server/discovery/utils/resolveProductVariantsFragment";
+import resolveProductVariantsFragment from "@/lib/resolveProductVariantsFragment";
 
 const productFormSchema = z.object({
   variant: z.string().min(1),

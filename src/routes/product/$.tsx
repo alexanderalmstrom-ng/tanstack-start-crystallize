@@ -3,7 +3,7 @@ import Price from "@/components/Price/Price";
 import { Heading } from "@/components/ui/heading";
 import type { ProductFragment } from "@/gql/discovery/graphql";
 import { getDiscoveryProductByPathServerFn } from "@/integrations/server/discovery/getDiscoveryProductByPathServerFn";
-import resolveProductVariantsFragment from "@/integrations/server/discovery/utils/resolveProductVariantsFragment";
+import resolveProductVariantsFragment from "@/lib/resolveProductVariantsFragment";
 import ProductForm from "./-components/ProductForm";
 import ProductGalleryCarousel from "./-components/ProductGalleryCarousel";
 
