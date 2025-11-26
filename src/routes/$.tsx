@@ -1,5 +1,12 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { Image } from "@unpic/react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { type FragmentType, getFragmentData } from "@/gql/discovery";
 import type { Product } from "@/gql/discovery/graphql";
 import { imageFragment } from "@/integrations/server/discovery/fragments/image";
@@ -28,13 +35,13 @@ function RouteComponent() {
 
   return (
     <div className="grid lg:grid-cols-[2fr_minmax(32rem,1fr)]">
-      <ProductGallery images={variantImages} />
+      <CarouselProductGallery images={variantImages} />
       <ProductDetails product={product} />
     </div>
   );
 }
 
-export default function ProductGallery({
+export default function ScrollableProductGallery({
   images,
 }: {
   images: (FragmentType<typeof imageFragment> | null | undefined)[] | undefined;
@@ -66,6 +73,42 @@ export default function ProductGallery({
         );
       })}
     </div>
+  );
+}
+
+function CarouselProductGallery({
+  images,
+}: {
+  images: (FragmentType<typeof imageFragment> | null | undefined)[] | undefined;
+}) {
+  if (!images) return null;
+
+  const imagesWithUrl = images
+    .map((image) => getFragmentData(imageFragment, image))
+    .filter((image) => image?.url);
+
+  return (
+    <Carousel className="bg-secondary" opts={{ align: "start", loop: true }}>
+      <CarouselContent className="xl:h-[calc(100vh-6.4375rem)]">
+        {imagesWithUrl.map((image) => {
+          if (!image?.url) return null;
+
+          return (
+            <CarouselItem key={image.url} className="bg-secondary">
+              <Image
+                src={image.url}
+                width={image.width ?? 2000}
+                height={image.height ?? 2000}
+                alt={image.altText ?? ""}
+                className="w-full h-full object-contain aspect-square mix-blend-multiply"
+              />
+            </CarouselItem>
+          );
+        })}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
   );
 }
 
