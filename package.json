@@ -18,9 +18,11 @@
     "codegen:watch": "npm-run-all --parallel codegen:catalogue:watch codegen:discovery:watch codegen:cart:watch",
     "codegen:catalogue:watch": "dotenvx run --env-file .env -- graphql-codegen --config ./codegen/codegen.catalogue.ts --watch",
     "codegen:discovery:watch": "dotenvx run --env-file .env -- graphql-codegen --config ./codegen/codegen.discovery.ts --watch",
+    "codegen:cart:watch": "dotenvx run --env-file .env -- graphql-codegen --config ./codegen/codegen.cart.ts --watch",
     "codegen:build": "npm-run-all --parallel codegen:catalogue:build codegen:discovery:build",
     "codegen:catalogue:build": "graphql-codegen --config ./codegen/codegen.catalogue.ts",
-    "codegen:discovery:build": "graphql-codegen --config ./codegen/codegen.discovery.ts"
+    "codegen:discovery:build": "graphql-codegen --config ./codegen/codegen.discovery.ts",
+    "codegen:cart:build": "graphql-codegen --config ./codegen/codegen.cart.ts"
     
   },
   "dependencies": {
