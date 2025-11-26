@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
+import { graphql } from "@/gql/cart";
 import { useSession } from "@/hooks/useSession";
-import getCartByIdServerFn from "./getCartByIdServerFn";
+import { crystallizeCart } from "@/integrations/crystallize/client";
 
 export const getCartServerFn = createServerFn({ method: "GET" }).handler(
   async () => {
@@ -10,8 +11,22 @@ export const getCartServerFn = createServerFn({ method: "GET" }).handler(
       return null;
     }
 
-    return getCartByIdServerFn({
-      data: { id: session.data.cartId, token: session.data.token },
+    const response = await crystallizeCart({
+      variables: {
+        id: session.data.cartId,
+      },
+      headers: {
+        Authorization: `Bearer ${session.data.token}`,
+      },
+      query: graphql(`
+        query GetCart($id: UUID) {
+          cart(id: $id) {
+            id
+          }
+        }
+      `),
     });
+
+    return response.data?.cart;
   },
 );
