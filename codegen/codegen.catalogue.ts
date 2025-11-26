@@ -32,12 +32,12 @@ const config: CodegenConfig = {
         useTypeImports: true,
       },
     },
-    "./codegen/catalogue.schema.graphql": {
-      plugins: ["schema-ast"],
-      config: {
-        includeDirectives: true,
-      },
-    },
+    // "./src/gql/catalogue.schema.graphql": {
+    //   plugins: ["schema-ast"],
+    //   config: {
+    //     includeDirectives: true,
+    //   },
+    // },
   },
 };
 
