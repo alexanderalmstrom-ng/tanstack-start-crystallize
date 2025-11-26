@@ -15,6 +15,7 @@ export function useSession() {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       httpOnly: true,
+      maxAge: 2592000, // 30 days
     },
   });
 }
