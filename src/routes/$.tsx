@@ -9,10 +9,11 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Heading } from "@/components/ui/heading";
-import { type FragmentType, getFragmentData } from "@/gql/discovery";
+import type { FragmentType } from "@/gql/discovery";
 import type { ProductFragment } from "@/gql/discovery/graphql";
-import { imageFragment } from "@/integrations/server/discovery/fragments/image";
+import type { imageFragment } from "@/integrations/server/discovery/fragments/image";
 import { getDiscoveryProductByPathServerFn } from "@/integrations/server/discovery/getDiscoveryProductByPathServerFn";
+import { resolveImagesFragment } from "@/integrations/server/discovery/utils/resolveImagesFragment";
 import resolveProductVariantsFragment from "@/integrations/server/discovery/utils/resolveProductVariantsFragment";
 
 export const Route = createFileRoute("/$")({
@@ -55,12 +56,9 @@ function ProductGalleryCarousel({
 }) {
   if (!images || images.length === 0) return null;
 
-  const imagesWithUrl = images
-    .filter((image) => image !== null && image !== undefined)
-    .map((image) => getFragmentData(imageFragment, image))
-    .filter((image) => image?.url);
+  const imagesWithUrl = resolveImagesFragment(images);
 
-  if (imagesWithUrl.length === 0) return null;
+  if (!imagesWithUrl || imagesWithUrl.length === 0) return null;
 
   return (
     <Carousel className="bg-secondary" opts={{ align: "start", loop: true }}>
