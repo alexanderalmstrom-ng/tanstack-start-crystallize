@@ -1,8 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
 import { graphql } from "@/gql/discovery";
+import { crystallizeDiscovery } from "@/integrations/crystallize/client";
 import { normalizeSlug } from "@/lib/utils";
-import { crystallizeDiscovery } from "../client";
 
 export const getDiscoveryProductByPathServerFn = createServerFn({
   method: "GET",

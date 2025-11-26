@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Fragment } from "react/jsx-runtime";
-import { getDiscoveryProductsServerFn } from "@/integrations/crystallize/discovery/getDiscoveryProductsServerFn";
+import { getDiscoveryProductsServerFn } from "@/integrations/server/discovery/getDiscoveryProductsServerFn";
 import { removeLeadingSlash } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({

@@ -1,8 +1,8 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { type FragmentType, getFragmentData } from "@/gql/discovery";
 import type { Product } from "@/gql/discovery/graphql";
-import { imageFragment } from "@/integrations/crystallize/discovery/fragments/image";
-import { getDiscoveryProductByPathServerFn } from "@/integrations/crystallize/discovery/getDiscoveryProductByPathServerFn";
+import { imageFragment } from "@/integrations/server/discovery/fragments/image";
+import { getDiscoveryProductByPathServerFn } from "@/integrations/server/discovery/getDiscoveryProductByPathServerFn";
 
 export const Route = createFileRoute("/$")({
   component: RouteComponent,

@@ -2,7 +2,7 @@ import z from "zod";
 import { graphql } from "@/gql/discovery/gql";
 import { crystallizeDiscovery } from "@/integrations/crystallize/client";
 import { normalizeSlug } from "@/lib/utils";
-import { createTRPCRouter, publicProcedure } from "../init";
+import { createTRPCRouter, publicProcedure } from "../../init";
 
 export const discoveryRouter = createTRPCRouter({
   products: publicProcedure.query(() => {

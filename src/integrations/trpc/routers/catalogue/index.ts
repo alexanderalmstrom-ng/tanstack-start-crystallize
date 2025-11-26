@@ -2,7 +2,7 @@ import z from "zod";
 import { graphql } from "@/gql/catalogue/gql";
 import { crystallizeCatalogue } from "@/integrations/crystallize/client";
 import { normalizeSlug } from "@/lib/utils";
-import { createTRPCRouter, publicProcedure } from "../init";
+import { createTRPCRouter, publicProcedure } from "../../init";
 
 export const catalogueRouter = createTRPCRouter({
   catalogueSubtreeByPath: publicProcedure

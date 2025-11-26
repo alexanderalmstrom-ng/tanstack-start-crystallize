@@ -6,8 +6,8 @@ const config: CodegenConfig = {
   // overwrite: true,
   // allowPartialOutputs: true,
   documents: [
-    "src/integrations/crystallize/discovery/**/*.{ts,tsx}",
-    "src/integrations/trpc/routers/discovery.ts",
+    "src/integrations/server/discovery/**/*.{ts,tsx}",
+    "src/integrations/trpc/routers/discovery/**/*.{ts,tsx}",
     "!src/gql/**/*",
   ],
   ignoreNoDocuments: true, // for better experience with the watcher
