@@ -61,7 +61,12 @@ async function crystallizeClient<TResult, TVariables>({
     `https://${api}.crystallize.com/${env.CRYSTALLIZE_TENANT_IDENTIFIER}/${endpoint}`,
     {
       method: "POST",
-      headers: getCrystallizeClientHeaders(),
+      headers: {
+        "Content-Type": "application/json",
+        "X-Crystallize-Access-Token-Id": env.CRYSTALLIZE_ACCESS_TOKEN_ID,
+        "X-Crystallize-Access-Token-Secret":
+          env.CRYSTALLIZE_ACCESS_TOKEN_SECRET,
+      },
       body: JSON.stringify({
         query: query.toString(),
         variables: variables || undefined,
@@ -98,13 +103,5 @@ async function crystallizeClient<TResult, TVariables>({
   return {
     data: validatedData.data,
     errors: validatedData.errors,
-  };
-}
-
-function getCrystallizeClientHeaders() {
-  return {
-    "Content-Type": "application/json",
-    "X-Crystallize-Access-Token-Id": env.CRYSTALLIZE_ACCESS_TOKEN_ID,
-    "X-Crystallize-Access-Token-Secret": env.CRYSTALLIZE_ACCESS_TOKEN_SECRET,
   };
 }
