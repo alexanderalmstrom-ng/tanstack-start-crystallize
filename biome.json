@@ -8,13 +8,11 @@
   "files": {
     "ignoreUnknown": false,
     "includes": [
-      "./codegen.ts",
-      "./codegen.catalogue.ts",
-      "./codegen.discovery.ts",
       "**/src/**/*",
       "**/.vscode/**/*",
       "**/index.html",
       "**/vite.config.js",
+      "**/codegen/**/*",
       "!**/src/routeTree.gen.ts",
       "!**/src/styles.css",
       "!**/src/gql/**/*"
