@@ -12,8 +12,6 @@ const config: CodegenConfig = {
       },
     },
   ],
-  // overwrite: true,
-  // allowPartialOutputs: true,
   documents: [
     "src/integrations/server/catalogue/**/*.{ts,tsx}",
     "src/integrations/trpc/routers/catalogue/**/*.{ts,tsx}",
@@ -22,7 +20,6 @@ const config: CodegenConfig = {
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
     "./src/gql/catalogue/": {
-      // plugins: ["typescript"],
       preset: "client",
       presetConfig: {
         fragmentMasking: { unmaskFunctionName: "getFragmentData" },
@@ -32,12 +29,6 @@ const config: CodegenConfig = {
         useTypeImports: true,
       },
     },
-    // "./src/gql/catalogue.schema.graphql": {
-    //   plugins: ["schema-ast"],
-    //   config: {
-    //     includeDirectives: true,
-    //   },
-    // },
   },
 };
 

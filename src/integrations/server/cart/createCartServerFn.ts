@@ -34,15 +34,15 @@ export const createCartServerFn = createServerFn({
     });
 
     const response = await crystallizeCart({
-      variables: {
-        input,
-      },
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      variables: {
+        input,
+      },
       query: graphql(`
         mutation CreateCart($input: CartInput!) {
-          hydrate(input: $input) {
+          cart: hydrate(input: $input) {
             id
           }
         }
@@ -50,8 +50,10 @@ export const createCartServerFn = createServerFn({
     });
 
     await session.update({
-      cartId: response.data?.hydrate?.id,
+      cartId: response.data?.cart?.id,
     });
 
-    return response.data?.hydrate;
+    console.log("Cart created with id:", response.data?.cart?.id);
+
+    return response.data?.cart;
   });

@@ -18,7 +18,7 @@ const getCartByIdServerFn = createServerFn({ method: "GET" })
         Authorization: `Bearer ${token}`,
       },
       query: graphql(`
-        query GetCartById($id: UUID) {
+        query GetCart($id: UUID) {
           cart(id: $id) {
             id
           }

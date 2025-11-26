@@ -10,7 +10,7 @@ export const getCartServerFn = createServerFn({ method: "GET" }).handler(
       return null;
     }
 
-    return await getCartByIdServerFn({
+    return getCartByIdServerFn({
       data: { id: session.data.cartId, token: session.data.token },
     });
   },

@@ -4,12 +4,10 @@ const config: CodegenConfig = {
   schema: [
     {
       "cart-token": {
-        loader: "./codegen/cart.mjs",
+        loader: "./codegen/cart.loader.mjs",
       },
     },
   ],
-  // overwrite: true,
-  // allowPartialOutputs: true,
   documents: [
     "src/integrations/server/cart/**/*.{ts,tsx}",
     "src/integrations/trpc/routers/cart/**/*.{ts,tsx}",
@@ -18,7 +16,6 @@ const config: CodegenConfig = {
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
     "./src/gql/cart/": {
-      // plugins: ["typescript"],
       preset: "client",
       presetConfig: {
         fragmentMasking: { unmaskFunctionName: "getFragmentData" },
@@ -28,12 +25,6 @@ const config: CodegenConfig = {
         useTypeImports: true,
       },
     },
-    // "./src/gql/catalogue.schema.graphql": {
-    //   plugins: ["schema-ast"],
-    //   config: {
-    //     includeDirectives: true,
-    //   },
-    // },
   },
 };
 

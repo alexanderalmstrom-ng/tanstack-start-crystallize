@@ -18,6 +18,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     refetch: cartRefetch,
   } = useCartQuery();
 
+  console.log("useCartQuery cart", cart);
+
   return (
     <SessionContext.Provider value={{ cart, cartIsLoading, cartRefetch }}>
       {children}
