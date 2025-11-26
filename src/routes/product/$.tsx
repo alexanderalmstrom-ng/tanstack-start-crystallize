@@ -4,10 +4,10 @@ import { Heading } from "@/components/ui/heading";
 import type { ProductFragment } from "@/gql/discovery/graphql";
 import { getDiscoveryProductByPathServerFn } from "@/integrations/server/discovery/getDiscoveryProductByPathServerFn";
 import resolveProductVariantsFragment from "@/integrations/server/discovery/utils/resolveProductVariantsFragment";
-import ProductForm from "./-product-page/ProductForm";
-import ProductGalleryCarousel from "./-product-page/ProductGalleryCarousel";
+import ProductForm from "./-components/ProductForm";
+import ProductGalleryCarousel from "./-components/ProductGalleryCarousel";
 
-export const Route = createFileRoute("/$")({
+export const Route = createFileRoute("/product/$")({
   component: RouteComponent,
   loader: async ({ params }) => {
     const product = await getDiscoveryProductByPathServerFn({

@@ -27,7 +27,7 @@ function App() {
             product && (
               <div key={product.id}>
                 <Link
-                  to={`/$`}
+                  to={`/product/$`}
                   params={{ _splat: removeLeadingSlash(product.path ?? "/") }}
                 >
                   {product.name}
