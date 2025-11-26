@@ -11,15 +11,7 @@ export const productFragment = graphql(`
       defaultPrice
     }
     variants {
-      name
-      sku
-      attributes
-      isDefault
-      defaultPrice
-      priceVariants
-      images {
-          ...image
-      }
+      ...variant
     }
   }
 `);

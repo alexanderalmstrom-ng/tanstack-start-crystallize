@@ -1,5 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { Image } from "@unpic/react";
+import Price from "@/components/Price/Price";
 import {
   Carousel,
   CarouselContent,
@@ -9,9 +10,11 @@ import {
 } from "@/components/ui/carousel";
 import { Heading } from "@/components/ui/heading";
 import { type FragmentType, getFragmentData } from "@/gql/discovery";
-import type { ProductFragment } from "@/gql/discovery/graphql";
+import type { ProductFragment, VariantFragment } from "@/gql/discovery/graphql";
 import { imageFragment } from "@/integrations/server/discovery/fragments/image";
+import { variantFragment } from "@/integrations/server/discovery/fragments/variant";
 import { getDiscoveryProductByPathServerFn } from "@/integrations/server/discovery/getDiscoveryProductByPathServerFn";
+import resolveProductVariantsFragment from "@/integrations/server/discovery/utils/resolveProductVariantsFragment";
 
 export const Route = createFileRoute("/$")({
   component: RouteComponent,
@@ -32,8 +35,8 @@ export const Route = createFileRoute("/$")({
 
 function RouteComponent() {
   const { product } = Route.useLoaderData();
-
-  const productVariantImages = product?.variants?.flatMap(
+  const productVariants = resolveProductVariantsFragment(product?.variants);
+  const productVariantImages = productVariants?.flatMap(
     (variant) => variant?.images,
   );
 
@@ -88,21 +91,19 @@ function ProductDetails({ product }: { product: ProductFragment }) {
         <h1 className="text-2xl lg:text-4xl">{product.name}</h1>
       </Heading>
       <Price amount={product.defaultVariant?.defaultPrice} />
+      <VariantSelector product={product} />
     </div>
   );
 }
 
-function Price({ amount }: { amount: number | null | undefined }) {
-  if (!amount) return null;
+function VariantSelector({ product }: { product: ProductFragment }) {
+  const variants = resolveProductVariantsFragment(product?.variants);
 
-  const formattedAmount = formatPrice(amount);
-
-  return <p className="text-lg">{formattedAmount}</p>;
-}
-
-function formatPrice(amount: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(amount);
+  return (
+    <div>
+      {variants?.map(
+        (variant) => variant && <div key={variant.sku}>{variant.name}</div>,
+      )}
+    </div>
+  );
 }
