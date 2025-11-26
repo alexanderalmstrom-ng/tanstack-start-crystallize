@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { marketConfig } from "./marketConfig";
+import { type MarketCode, marketConfig } from "./marketConfig";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -18,17 +18,17 @@ export function removeLeadingSlash(slug: string) {
   return slug.startsWith("/") ? slug.slice(1) : slug;
 }
 
-function getMarket(marketCode?: string) {
+function getMarket(marketCode?: MarketCode) {
   const defaultMarket = marketConfig.SE;
 
   if (!marketCode) {
     return defaultMarket;
   }
 
-  return marketConfig[marketCode as keyof typeof marketConfig];
+  return marketConfig[marketCode as MarketCode];
 }
 
-export function formatPrice(amount: number, marketCode?: string) {
+export function formatPrice(amount: number, marketCode?: MarketCode) {
   const market = getMarket(marketCode);
 
   return new Intl.NumberFormat(market.locale, {

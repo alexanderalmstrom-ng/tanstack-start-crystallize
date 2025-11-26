@@ -1,14 +1,40 @@
+enum MarketCodeEnum {
+  SE = "SE",
+  NO = "NO",
+  EU = "EU",
+}
+
+enum MarketCurrencyEnum {
+  SEK = "SEK",
+  NOK = "NOK",
+  EUR = "EUR",
+}
+
+enum MarketLocaleEnum {
+  SE = "sv-SE",
+  NO = "nb-NO",
+  EU = "en-US",
+}
+
+export type MarketConfig = (typeof marketConfig)[keyof typeof MarketCodeEnum];
+
 export const marketConfig = {
   SE: {
-    currency: "SEK",
-    locale: "sv-SE",
+    currency: MarketCurrencyEnum.SEK,
+    locale: MarketLocaleEnum.SE,
   },
   NO: {
-    currency: "NOK",
-    locale: "nb-NO",
+    currency: MarketCurrencyEnum.NOK,
+    locale: MarketLocaleEnum.NO,
   },
   EU: {
-    currency: "EUR",
-    locale: "en-US",
+    currency: MarketCurrencyEnum.EUR,
+    locale: MarketLocaleEnum.EU,
   },
-};
+} as const;
+
+export type MarketCode = keyof typeof marketConfig;
+
+export type MarketCurrency = keyof typeof MarketCurrencyEnum;
+
+export type MarketLocale = keyof typeof MarketLocaleEnum;
