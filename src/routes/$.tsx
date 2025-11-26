@@ -1,6 +1,10 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { Image } from "@unpic/react";
+import { useForm } from "react-hook-form";
+import z from "zod";
 import Price from "@/components/Price/Price";
+import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
@@ -8,7 +12,23 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Heading } from "@/components/ui/heading";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { FragmentType } from "@/gql/discovery";
 import type { ProductFragment } from "@/gql/discovery/graphql";
 import type { imageFragment } from "@/integrations/server/discovery/fragments/image";
@@ -93,6 +113,7 @@ function ProductDetails({ product }: { product: ProductFragment }) {
       </Heading>
       <Price amount={product.defaultVariant?.defaultPrice} />
       <VariantSelector product={product} />
+      <ProductForm product={product} />
     </div>
   );
 }
@@ -106,5 +127,61 @@ function VariantSelector({ product }: { product: ProductFragment }) {
         (variant) => variant && <div key={variant.sku}>{variant.name}</div>,
       )}
     </div>
+  );
+}
+
+const productFormSchema = z.object({
+  variant: z.string().min(1),
+});
+
+function ProductForm({ product }: { product: ProductFragment }) {
+  const variants = resolveProductVariantsFragment(product?.variants);
+
+  const form = useForm<z.infer<typeof productFormSchema>>({
+    resolver: zodResolver(productFormSchema),
+    defaultValues: {
+      variant: variants?.[0]?.sku ?? "",
+    },
+  });
+
+  const onSubmit = (data: z.infer<typeof productFormSchema>) => {
+    console.log("data", data);
+  };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormField
+          control={form.control}
+          name="variant"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor={field.name}>Variant</FormLabel>
+              <FormControl>
+                <Select {...field}>
+                  <SelectTrigger className="w-full" id={field.name}>
+                    <SelectValue placeholder="Select a variant" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {variants?.map(
+                        (variant) =>
+                          variant?.sku && (
+                            <SelectItem key={variant.sku} value={variant.sku}>
+                              {variant.name}
+                            </SelectItem>
+                          ),
+                      )}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Add to cart</Button>
+      </form>
+    </Form>
   );
 }
