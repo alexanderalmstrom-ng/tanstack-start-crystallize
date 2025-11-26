@@ -1,4 +1,5 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
+import { Image } from "@unpic/react";
 import { type FragmentType, getFragmentData } from "@/gql/discovery";
 import type { Product } from "@/gql/discovery/graphql";
 import { imageFragment } from "@/integrations/server/discovery/fragments/image";
@@ -54,12 +55,12 @@ export default function ProductGallery({
             key={image.url}
             className="shrink-0 basis-full snap-start bg-secondary"
           >
-            <img
-              className="w-full h-full object-contain aspect-square mix-blend-multiply"
+            <Image
               src={image.url}
               width={image.width ?? 2000}
               height={image.height ?? 2000}
               alt={image.altText ?? ""}
+              className="w-full h-full object-contain aspect-square mix-blend-multiply"
             />
           </picture>
         );
