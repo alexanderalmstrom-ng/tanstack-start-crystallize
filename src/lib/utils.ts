@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { env } from "@/env";
 import { type MarketCode, marketConfig } from "./marketConfig";
 
 export function cn(...inputs: ClassValue[]) {
@@ -18,14 +19,8 @@ export function removeLeadingSlash(slug: string) {
   return slug.startsWith("/") ? slug.slice(1) : slug;
 }
 
-function getMarket(marketCode?: MarketCode) {
-  const defaultMarket = marketConfig.SE;
-
-  if (!marketCode) {
-    return defaultMarket;
-  }
-
-  return marketConfig[marketCode as MarketCode];
+export function getMarket(marketCode: MarketCode = env.VITE_MARKET_CODE) {
+  return marketConfig[marketCode];
 }
 
 export function formatPrice(amount: number, marketCode?: MarketCode) {

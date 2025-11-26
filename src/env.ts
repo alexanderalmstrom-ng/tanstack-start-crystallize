@@ -15,6 +15,7 @@ export const env = createEnv({
   clientPrefix: "VITE_",
 
   client: {
+    VITE_MARKET_CODE: z.enum(["SE", "NO", "EU"]).default("SE"),
     // VITE_APP_TITLE: z.string().min(1).optional(),
   },
 
