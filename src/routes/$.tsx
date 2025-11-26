@@ -10,9 +10,8 @@ import {
 } from "@/components/ui/carousel";
 import { Heading } from "@/components/ui/heading";
 import { type FragmentType, getFragmentData } from "@/gql/discovery";
-import type { ProductFragment, VariantFragment } from "@/gql/discovery/graphql";
+import type { ProductFragment } from "@/gql/discovery/graphql";
 import { imageFragment } from "@/integrations/server/discovery/fragments/image";
-import { variantFragment } from "@/integrations/server/discovery/fragments/variant";
 import { getDiscoveryProductByPathServerFn } from "@/integrations/server/discovery/getDiscoveryProductByPathServerFn";
 import resolveProductVariantsFragment from "@/integrations/server/discovery/utils/resolveProductVariantsFragment";
 
