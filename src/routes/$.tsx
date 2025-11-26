@@ -9,9 +9,8 @@ import {
 } from "@/components/ui/carousel";
 import { Heading } from "@/components/ui/heading";
 import { type FragmentType, getFragmentData } from "@/gql/discovery";
-import type { Product } from "@/gql/discovery/graphql";
+import type { ProductFragment } from "@/gql/discovery/graphql";
 import { imageFragment } from "@/integrations/server/discovery/fragments/image";
-import { productFragment } from "@/integrations/server/discovery/fragments/product";
 import { getDiscoveryProductByPathServerFn } from "@/integrations/server/discovery/getDiscoveryProductByPathServerFn";
 
 export const Route = createFileRoute("/$")({
@@ -25,10 +24,8 @@ export const Route = createFileRoute("/$")({
       throw notFound();
     }
 
-    const productFragmentData = getFragmentData(productFragment, product);
-
     return {
-      product: productFragmentData,
+      product,
     };
   },
 });
@@ -84,7 +81,7 @@ function ProductGalleryCarousel({
   );
 }
 
-function ProductDetails({ product }: { product: Product }) {
+function ProductDetails({ product }: { product: ProductFragment }) {
   return (
     <div className="px-4 py-6 lg:p-10">
       <Heading asChild>

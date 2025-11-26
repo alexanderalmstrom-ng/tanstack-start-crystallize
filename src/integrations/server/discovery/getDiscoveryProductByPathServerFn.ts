@@ -1,8 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
-import { graphql } from "@/gql/discovery";
+import { getFragmentData, graphql } from "@/gql/discovery";
 import { crystallizeDiscovery } from "@/integrations/crystallize/client";
 import { normalizeSlug } from "@/lib/utils";
+import { productFragment } from "./fragments/product";
 
 export const getDiscoveryProductByPathServerFn = createServerFn({
   method: "GET",
@@ -24,5 +25,8 @@ export const getDiscoveryProductByPathServerFn = createServerFn({
       `),
     });
 
-    return product?.data?.browse?.product?.hits?.[0];
+    return getFragmentData(
+      productFragment,
+      product?.data?.browse?.product?.hits?.[0],
+    );
   });
