@@ -33,13 +33,13 @@ export const Route = createFileRoute("/$")({
 function RouteComponent() {
   const { product } = Route.useLoaderData();
 
-  const variantImages = product?.variants?.flatMap(
+  const productVariantImages = product?.variants?.flatMap(
     (variant) => variant?.images,
   );
 
   return (
     <div className="grid lg:grid-cols-[2fr_minmax(32rem,1fr)]">
-      <ProductGalleryCarousel images={variantImages} />
+      <ProductGalleryCarousel images={productVariantImages} />
       <ProductDetails product={product} />
     </div>
   );
