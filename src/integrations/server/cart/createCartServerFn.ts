@@ -25,7 +25,7 @@ export const createCartServerFn = createServerFn({
     const token = await createAuthTokenServerFn({
       data: {
         scopes: ["cart", "cart:admin"],
-        expiresIn: 18000, // 5 hours
+        expiresIn: 2592000, // 30 days
       },
     });
 
