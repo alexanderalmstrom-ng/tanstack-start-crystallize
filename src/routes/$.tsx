@@ -1,41 +1,11 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { Image } from "@unpic/react";
-import { useForm } from "react-hook-form";
-import z from "zod";
 import Price from "@/components/Price/Price";
-import { Button } from "@/components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Heading } from "@/components/ui/heading";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import type { FragmentType } from "@/gql/discovery";
 import type { ProductFragment } from "@/gql/discovery/graphql";
-import { addToCartServerFn } from "@/integrations/server/cart/addToCartServerFn";
-import type { imageFragment } from "@/integrations/server/discovery/fragments/image";
 import { getDiscoveryProductByPathServerFn } from "@/integrations/server/discovery/getDiscoveryProductByPathServerFn";
-import { resolveImagesFragment } from "@/integrations/server/discovery/utils/resolveImagesFragment";
 import resolveProductVariantsFragment from "@/integrations/server/discovery/utils/resolveProductVariantsFragment";
+import ProductForm from "./-product-page/ProductForm";
+import ProductGalleryCarousel from "./-product-page/ProductGalleryCarousel";
 
 export const Route = createFileRoute("/$")({
   component: RouteComponent,
@@ -70,42 +40,6 @@ function RouteComponent() {
   );
 }
 
-function ProductGalleryCarousel({
-  images,
-}: {
-  images: (FragmentType<typeof imageFragment> | null | undefined)[] | undefined;
-}) {
-  if (!images || images.length === 0) return null;
-
-  const imagesWithUrl = resolveImagesFragment(images);
-
-  if (!imagesWithUrl || imagesWithUrl.length === 0) return null;
-
-  return (
-    <Carousel className="bg-secondary" opts={{ align: "start", loop: true }}>
-      <CarouselContent className="xl:h-[calc(100vh-6.4375rem)]">
-        {imagesWithUrl.map((image) => {
-          if (!image?.url) return null;
-
-          return (
-            <CarouselItem key={image.url} className="bg-secondary">
-              <Image
-                src={image.url}
-                width={image.width ?? 2000}
-                height={image.height ?? 2000}
-                alt={image.altText ?? ""}
-                className="w-full h-full object-contain aspect-square mix-blend-multiply"
-              />
-            </CarouselItem>
-          );
-        })}
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-    </Carousel>
-  );
-}
-
 function ProductDetails({ product }: { product: ProductFragment }) {
   return (
     <div className="px-4 py-6 lg:p-10 flex flex-col gap-1">
@@ -115,69 +49,5 @@ function ProductDetails({ product }: { product: ProductFragment }) {
       <Price amount={product.defaultVariant?.defaultPrice} />
       <ProductForm product={product} />
     </div>
-  );
-}
-
-const productFormSchema = z.object({
-  variant: z.string().min(1),
-});
-
-function ProductForm({ product }: { product: ProductFragment }) {
-  const variants = resolveProductVariantsFragment(product?.variants);
-
-  const form = useForm<z.infer<typeof productFormSchema>>({
-    resolver: zodResolver(productFormSchema),
-    defaultValues: {
-      variant: variants?.[0]?.sku ?? "",
-    },
-  });
-
-  const onSubmit = async (data: z.infer<typeof productFormSchema>) => {
-    console.log("onSubmit data", data);
-
-    const addToCartResponse = await addToCartServerFn({
-      data: {
-        items: [{ sku: data.variant, quantity: 1 }],
-      },
-    });
-
-    console.log("addToCartResponse", addToCartResponse);
-  };
-
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="variant"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor={field.name}>Variant</FormLabel>
-              <FormControl>
-                <Select {...field} onValueChange={field.onChange}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a variant" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {variants?.map(
-                        (variant) =>
-                          variant?.sku && (
-                            <SelectItem key={variant.sku} value={variant.sku}>
-                              {variant.name}
-                            </SelectItem>
-                          ),
-                      )}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Add to cart</Button>
-      </form>
-    </Form>
   );
 }
