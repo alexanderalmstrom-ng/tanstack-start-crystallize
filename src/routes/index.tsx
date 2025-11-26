@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Fragment } from "react/jsx-runtime";
-import { getDiscoveryProducts } from "@/integrations/crystallize/discovery/getDiscoveryProducts";
+import { getDiscoveryProductsServerFn } from "@/integrations/crystallize/discovery/getDiscoveryProductsServerFn";
 import { removeLeadingSlash } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   component: App,
   loader: async () => {
-    const products = await getDiscoveryProducts();
+    const products = await getDiscoveryProductsServerFn();
 
     return {
       products,

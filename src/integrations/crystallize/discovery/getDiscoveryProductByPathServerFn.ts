@@ -4,7 +4,7 @@ import { graphql } from "@/gql/discovery";
 import { normalizeSlug } from "@/lib/utils";
 import { crystallizeDiscovery } from "../client";
 
-export const getDiscoveryProductByPath = createServerFn({
+export const getDiscoveryProductByPathServerFn = createServerFn({
   method: "GET",
 })
   .inputValidator(z.object({ path: z.string().default("/") }))

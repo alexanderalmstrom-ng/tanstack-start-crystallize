@@ -4,7 +4,7 @@ import { graphql } from "@/gql/catalogue";
 import { normalizeSlug } from "@/lib/utils";
 import { crystallizeCatalogue } from "../client";
 
-export const getCatalogueByPath = createServerFn({ method: "GET" })
+export const getCatalogueByPathServerFn = createServerFn({ method: "GET" })
   .inputValidator(z.object({ path: z.string().default("/") }))
   .handler(async ({ data: { path } }) => {
     const response = await crystallizeCatalogue({
