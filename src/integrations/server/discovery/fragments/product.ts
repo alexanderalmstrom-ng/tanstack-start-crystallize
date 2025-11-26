@@ -2,13 +2,24 @@ import { graphql } from "@/gql/discovery";
 
 export const productFragment = graphql(`
   fragment product on product {
-    id
     name
-    path
+    breadcrumbs {
+      name
+      path
+    }
+    defaultVariant {
+      defaultPrice
+    }
     variants {
-        images {
-            ...image
-        }
+      name
+      sku
+      attributes
+      isDefault
+      defaultPrice
+      priceVariants
+      images {
+          ...image
+      }
     }
   }
 `);

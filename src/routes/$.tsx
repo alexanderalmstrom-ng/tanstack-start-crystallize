@@ -83,10 +83,26 @@ function ProductGalleryCarousel({
 
 function ProductDetails({ product }: { product: ProductFragment }) {
   return (
-    <div className="px-4 py-6 lg:p-10">
+    <div className="px-4 py-6 lg:p-10 flex flex-col gap-1">
       <Heading asChild>
         <h1 className="text-2xl lg:text-4xl">{product.name}</h1>
       </Heading>
+      <Price amount={product.defaultVariant?.defaultPrice} />
     </div>
   );
+}
+
+function Price({ amount }: { amount: number | null | undefined }) {
+  if (!amount) return null;
+
+  const formattedAmount = formatPrice(amount);
+
+  return <p className="text-lg">{formattedAmount}</p>;
+}
+
+function formatPrice(amount: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(amount);
 }
