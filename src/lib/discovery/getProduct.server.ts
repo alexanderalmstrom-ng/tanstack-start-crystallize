@@ -3,9 +3,9 @@ import z from "zod";
 import { getFragmentData, graphql } from "@/gql/discovery";
 import { crystallizeDiscovery } from "@/integrations/crystallize/client";
 import { normalizeSlug } from "@/lib/utils";
-import { productFragment } from "./fragments/product";
+import { productFragment } from "./fragments/product.fragment";
 
-export const getDiscoveryProductByPathServerFn = createServerFn({
+export const getProductByPathServerFn = createServerFn({
   method: "GET",
 })
   .inputValidator(z.object({ path: z.string().default("/") }))
@@ -13,7 +13,7 @@ export const getDiscoveryProductByPathServerFn = createServerFn({
     const product = await crystallizeDiscovery({
       variables: { path: normalizeSlug(path) },
       query: graphql(`
-        query BrowseDiscoveryProductByPath($path: String!) {
+        query GetProductByPath($path: String!) {
           browse {
             product(path: $path) {
               hits {

@@ -2,7 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import Price from "@/components/Price/Price";
 import { Heading } from "@/components/ui/heading";
 import type { ProductFragment } from "@/gql/discovery/graphql";
-import { getDiscoveryProductByPathServerFn } from "@/lib/discovery/getDiscoveryProductByPathServerFn";
+import { getProductByPathServerFn } from "@/lib/discovery/getProduct.server";
 import { getVariantsWithSkuAndName } from "@/lib/variants";
 import ProductForm from "./-components/ProductForm";
 import ProductGalleryCarousel from "./-components/ProductGalleryCarousel";
@@ -10,7 +10,7 @@ import ProductGalleryCarousel from "./-components/ProductGalleryCarousel";
 export const Route = createFileRoute("/product/$")({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const product = await getDiscoveryProductByPathServerFn({
+    const product = await getProductByPathServerFn({
       data: { path: params._splat },
     });
 

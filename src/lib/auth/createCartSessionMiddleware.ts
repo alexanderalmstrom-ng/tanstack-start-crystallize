@@ -1,7 +1,7 @@
 import { createMiddleware } from "@tanstack/react-start";
 import z from "zod";
 import { useSession } from "@/hooks/useSession";
-import { createCartServerFn } from "../cart/createCartServerFn";
+import { createCartServerFn } from "../cart/createCart.server";
 
 export const createCartSessionMiddleware = createMiddleware({
   type: "function",

@@ -2,12 +2,12 @@ import { createServerFn } from "@tanstack/react-start";
 import { graphql } from "@/gql/discovery";
 import { crystallizeDiscovery } from "@/integrations/crystallize/client";
 
-export const getDiscoveryProductsServerFn = createServerFn({
+export const getProductsServerFn = createServerFn({
   method: "GET",
 }).handler(async () => {
   const products = await crystallizeDiscovery({
     query: graphql(`
-      query BrowseDiscoveryProducts {
+      query GetProducts {
         browse {
           product {
             hits {

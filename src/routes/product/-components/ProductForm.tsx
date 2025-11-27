@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { ProductFragment } from "@/gql/discovery/graphql";
-import { addToCartServerFn } from "@/lib/cart/addToCartServerFn";
+import { addToCartServerFn } from "@/lib/cart/addToCart.server";
 import { getVariantsWithSkuAndName } from "@/lib/variants";
 
 const productFormSchema = z.object({

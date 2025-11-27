@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
-import { graphql } from "@/gql/cart";
 import { useSession } from "@/hooks/useSession";
 import { crystallizeCart } from "@/integrations/crystallize/client";
+import { getCartQuery } from "./getCart.query";
 
 export const getCartServerFn = createServerFn({ method: "GET" }).handler(
   async () => {
@@ -18,13 +18,7 @@ export const getCartServerFn = createServerFn({ method: "GET" }).handler(
       headers: {
         Authorization: `Bearer ${session.data.token}`,
       },
-      query: graphql(`
-        query GetCart($id: UUID) {
-          cart(id: $id) {
-            id
-          }
-        }
-      `),
+      query: getCartQuery,
     });
 
     return response.data?.cart;

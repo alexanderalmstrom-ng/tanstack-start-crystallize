@@ -1,5 +1,5 @@
 import { type FragmentType, getFragmentData } from "@/gql/discovery";
-import { variantFragment } from "@/lib/discovery/fragments/variant";
+import { variantFragment } from "@/lib/discovery/fragments/variant.fragment";
 
 export function resolveProductVariantsFragment(
   variants: (FragmentType<typeof variantFragment> | null)[] | null | undefined,
