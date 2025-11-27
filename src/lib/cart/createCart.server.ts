@@ -1,9 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
-import { graphql } from "@/gql/cart";
 import { crystallizeCart } from "@/integrations/crystallize/client";
 import { createAuthTokenServerFn } from "../auth/createAuthTokenServerFn";
 import { createAuthTokenSessionMiddleware } from "../auth/createAuthTokenSessionMiddleware";
+import { createCartMutation } from "./createCart.mutation";
 
 const CreateCartInputSchema = z.object({
   input: z.object({
@@ -31,13 +31,7 @@ export const createCartServerFn = createServerFn({
       variables: {
         input,
       },
-      query: graphql(`
-        mutation CreateCart($input: CartInput!) {
-          cart: hydrate(input: $input) {
-            id
-          }
-        }
-        `),
+      query: createCartMutation,
     });
 
     if (!response.data?.cart) {
