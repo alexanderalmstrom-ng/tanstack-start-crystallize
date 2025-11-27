@@ -4,7 +4,7 @@ import codegenConfig from "./codegen.config.mts";
 const config: CodegenConfig = {
   schema: `https://api.crystallize.com/${codegenConfig.tenantId}/discovery`,
   documents: [
-    "src/integrations/server/discovery/**/*.{ts,tsx}",
+    "src/lib/discovery/**/*.{ts,tsx}",
     "src/integrations/trpc/routers/discovery/**/*.{ts,tsx}",
     "!src/gql/**/*",
   ],

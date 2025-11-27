@@ -13,7 +13,7 @@ const config: CodegenConfig = {
     },
   ],
   documents: [
-    "src/integrations/server/catalogue/**/*.{ts,tsx}",
+    "src/lib/catalogue/**/*.{ts,tsx}",
     "src/integrations/trpc/routers/catalogue/**/*.{ts,tsx}",
     "!src/gql/**/*",
   ],

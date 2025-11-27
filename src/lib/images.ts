@@ -1,5 +1,5 @@
 import { type FragmentType, getFragmentData } from "@/gql/discovery";
-import { imageFragment } from "@/integrations/server/discovery/fragments/image";
+import { imageFragment } from "@/lib/discovery/fragments/image";
 
 export function resolveImagesFragment(
   images: (FragmentType<typeof imageFragment> | null | undefined)[] | undefined,
@@ -7,7 +7,6 @@ export function resolveImagesFragment(
   if (!images) return undefined;
 
   return images
-    .filter((image) => image !== null && image !== undefined)
     .map((image) => getFragmentData(imageFragment, image))
     .filter((image) => image?.url);
 }

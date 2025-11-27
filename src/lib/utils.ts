@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { env } from "@/env";
-import { type MarketCode, marketConfig } from "./marketConfig";
+import { type MarketCode, marketConfig } from "./market";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

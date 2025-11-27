@@ -34,19 +34,22 @@ export const createAuthTokenServerFn = createServerFn({
     },
   );
 
-  const validation = CreateAuthTokenResponseSchema.safeParse(
+  const authTokenValidation = CreateAuthTokenResponseSchema.safeParse(
     await response.json(),
   );
 
-  if (!validation.success) {
-    console.error("Failed to validate auth token response", validation.error);
-    throw new Error(validation.error.message);
+  if (!authTokenValidation.success) {
+    console.error(
+      "Failed to validate auth token response",
+      authTokenValidation.error,
+    );
+    throw new Error(authTokenValidation.error.message);
   }
 
-  if ("error" in validation.data) {
-    console.error("Failed to fetch auth token", validation.data.error);
-    throw new Error(validation.data.error);
+  if ("error" in authTokenValidation.data) {
+    console.error("Failed to fetch auth token", authTokenValidation.data.error);
+    throw new Error(authTokenValidation.data.error);
   }
 
-  return validation.data.token;
+  return authTokenValidation.data.token;
 });

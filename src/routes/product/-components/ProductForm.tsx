@@ -19,15 +19,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { ProductFragment } from "@/gql/discovery/graphql";
-import { addToCartServerFn } from "@/integrations/server/cart/addToCartServerFn";
-import resolveProductVariantsFragment from "@/lib/resolveProductVariantsFragment";
+import { addToCartServerFn } from "@/lib/cart/addToCartServerFn";
+import { getVariantsWithSkuAndName } from "@/lib/variants";
 
 const productFormSchema = z.object({
   variant: z.string().min(1),
 });
 
 export default function ProductForm({ product }: { product: ProductFragment }) {
-  const variants = resolveProductVariantsFragment(product?.variants);
+  const variants = getVariantsWithSkuAndName(product?.variants);
 
   const form = useForm<z.infer<typeof productFormSchema>>({
     resolver: zodResolver(productFormSchema),
@@ -48,6 +48,8 @@ export default function ProductForm({ product }: { product: ProductFragment }) {
     console.log("addToCartResponse", addToCartResponse);
   };
 
+  if (!variants || variants.length === 0) return null;
+
   return (
     <Form {...form}>
       <form
@@ -67,15 +69,11 @@ export default function ProductForm({ product }: { product: ProductFragment }) {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {variants?.map(
-                        (variant) =>
-                          variant?.sku &&
-                          variant?.name && (
-                            <SelectItem key={variant.sku} value={variant.sku}>
-                              {variant.name}
-                            </SelectItem>
-                          ),
-                      )}
+                      {variants.map((variant) => (
+                        <SelectItem key={variant.sku} value={variant.sku}>
+                          {variant.name}
+                        </SelectItem>
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>

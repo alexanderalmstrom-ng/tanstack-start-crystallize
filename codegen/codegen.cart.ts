@@ -9,7 +9,7 @@ const config: CodegenConfig = {
     },
   ],
   documents: [
-    "src/integrations/server/cart/**/*.{ts,tsx}",
+    "src/lib/cart/**/*.{ts,tsx}",
     "src/integrations/trpc/routers/cart/**/*.{ts,tsx}",
     "!src/gql/**/*",
   ],

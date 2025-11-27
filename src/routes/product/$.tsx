@@ -2,8 +2,8 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import Price from "@/components/Price/Price";
 import { Heading } from "@/components/ui/heading";
 import type { ProductFragment } from "@/gql/discovery/graphql";
-import { getDiscoveryProductByPathServerFn } from "@/integrations/server/discovery/getDiscoveryProductByPathServerFn";
-import resolveProductVariantsFragment from "@/lib/resolveProductVariantsFragment";
+import { getDiscoveryProductByPathServerFn } from "@/lib/discovery/getDiscoveryProductByPathServerFn";
+import { getVariantsWithSkuAndName } from "@/lib/variants";
 import ProductForm from "./-components/ProductForm";
 import ProductGalleryCarousel from "./-components/ProductGalleryCarousel";
 
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/product/$")({
 
 function RouteComponent() {
   const { product } = Route.useLoaderData();
-  const productVariants = resolveProductVariantsFragment(product?.variants);
+  const productVariants = getVariantsWithSkuAndName(product?.variants);
   const productVariantImages = productVariants?.flatMap(
     (variant) => variant?.images,
   );
