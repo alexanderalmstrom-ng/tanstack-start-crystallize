@@ -3,7 +3,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 const config: CodegenConfig = {
   schema: [
     {
-      "cart-token": {
+      "auth-token": {
         loader: "./codegen/cart.loader.mjs",
       },
     },
