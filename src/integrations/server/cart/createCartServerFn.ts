@@ -2,8 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
 import { graphql } from "@/gql/cart";
 import { crystallizeCart } from "@/integrations/crystallize/client";
-import { authTokenMiddleware } from "../auth/authTokenMiddleware";
 import { createAuthTokenServerFn } from "../auth/createAuthTokenServerFn";
+import { createAuthTokenSessionMiddleware } from "../auth/createAuthTokenSessionMiddleware";
 
 const CreateCartInputSchema = z.object({
   input: z.object({
@@ -19,7 +19,7 @@ const CreateCartInputSchema = z.object({
 export const createCartServerFn = createServerFn({
   method: "POST",
 })
-  .middleware([authTokenMiddleware])
+  .middleware([createAuthTokenSessionMiddleware])
   .inputValidator(CreateCartInputSchema)
   .handler(async ({ data: { input } }) => {
     const token = await createAuthTokenServerFn();

@@ -2,7 +2,7 @@ import { createMiddleware } from "@tanstack/react-start";
 import { useSession } from "@/hooks/useSession";
 import { createAuthTokenServerFn } from "./createAuthTokenServerFn";
 
-export const authTokenMiddleware = createMiddleware({
+export const createAuthTokenSessionMiddleware = createMiddleware({
   type: "function",
 }).server(async ({ next }) => {
   const session = await useSession();

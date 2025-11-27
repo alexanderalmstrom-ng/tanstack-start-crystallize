@@ -3,7 +3,7 @@ import z from "zod";
 import { useSession } from "@/hooks/useSession";
 import { createCartServerFn } from "../cart/createCartServerFn";
 
-export const cartMiddleware = createMiddleware({
+export const createCartSessionMiddleware = createMiddleware({
   type: "function",
 })
   .inputValidator(
