@@ -69,7 +69,8 @@ export default function ProductForm({ product }: { product: ProductFragment }) {
                     <SelectGroup>
                       {variants?.map(
                         (variant) =>
-                          variant?.sku && (
+                          variant?.sku &&
+                          variant?.name && (
                             <SelectItem key={variant.sku} value={variant.sku}>
                               {variant.name}
                             </SelectItem>
