@@ -1,8 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
 import { graphql } from "@/gql/cart";
-import { useSession } from "@/hooks/useSession";
 import { crystallizeCart } from "@/integrations/crystallize/client";
+import { authTokenMiddleware } from "../auth/authTokenMiddleware";
 import { createAuthTokenServerFn } from "../auth/createAuthTokenServerFn";
 
 const CreateCartInputSchema = z.object({
@@ -19,19 +19,10 @@ const CreateCartInputSchema = z.object({
 export const createCartServerFn = createServerFn({
   method: "POST",
 })
+  .middleware([authTokenMiddleware])
   .inputValidator(CreateCartInputSchema)
   .handler(async ({ data: { input } }) => {
-    const session = await useSession();
-    const token = await createAuthTokenServerFn({
-      data: {
-        scopes: ["cart", "cart:admin"],
-        expiresIn: 2592000, // 30 days
-      },
-    });
-
-    await session.update({
-      token,
-    });
+    const token = await createAuthTokenServerFn();
 
     const response = await crystallizeCart({
       headers: {
@@ -49,11 +40,9 @@ export const createCartServerFn = createServerFn({
         `),
     });
 
-    await session.update({
-      cartId: response.data?.cart?.id,
-    });
-
-    console.log("Cart created with id:", response.data?.cart?.id);
+    if (!response.data?.cart) {
+      throw new Error("Failed to create cart");
+    }
 
     return response.data?.cart;
   });

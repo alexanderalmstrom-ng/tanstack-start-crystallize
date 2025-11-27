@@ -1,8 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
-import { useSession } from "@/hooks/useSession";
-import { addSkuItemServerFn } from "./addSkuItemServerFn";
-import { createCartServerFn } from "./createCartServerFn";
+import { graphql } from "@/gql/cart";
+import { crystallizeCart } from "@/integrations/crystallize/client";
+import { authTokenMiddleware } from "../auth/authTokenMiddleware";
+import { cartMiddleware } from "../auth/cartMiddleware";
 
 const AddToCartInputSchema = z.object({
   items: z.array(
@@ -16,36 +17,14 @@ const AddToCartInputSchema = z.object({
 export const addToCartServerFn = createServerFn({
   method: "POST",
 })
+  .middleware([cartMiddleware])
   .inputValidator(AddToCartInputSchema)
-  .handler(async ({ data: { items } }) => {
-    const session = await useSession();
-
-    // Handle the case where the cart is not created yet
-    if (!session.data.cartId) {
-      const createCartResponse = await createCartServerFn({
-        data: {
-          input: {
-            items,
-          },
-        },
-      });
-
-      return createCartResponse;
-    }
-
-    if (!session.data.token) {
-      throw new Error("Add to cart failed", {
-        cause: "No auth token found in session",
-      });
-    }
-
-    // Add the item to the existing cart
+  .handler(async ({ data: { items }, context }) => {
     const addSkuItemResponse = await addSkuItemServerFn({
       data: {
-        cartId: session.data.cartId,
-        token: session.data.token,
         sku: items[0].sku,
         quantity: items[0].quantity,
+        cartId: context.cartId,
       },
     });
 
@@ -54,4 +33,39 @@ export const addToCartServerFn = createServerFn({
     );
 
     return addSkuItemResponse;
+  });
+
+const AddSkuItemInputSchema = z.object({
+  sku: z.string(),
+  quantity: z.number(),
+  cartId: z.string(),
+});
+
+const addSkuItemServerFn = createServerFn({
+  method: "POST",
+})
+  .middleware([authTokenMiddleware])
+  .inputValidator(AddSkuItemInputSchema)
+  .handler(async ({ data, context }) => {
+    const response = await crystallizeCart({
+      headers: {
+        Authorization: `Bearer ${context.token}`,
+      },
+      variables: {
+        id: data.cartId,
+        input: {
+          sku: data.sku,
+          quantity: data.quantity,
+        },
+      },
+      query: graphql(`
+            mutation AddSkuItem($id: UUID, $input: CartSkuItemInput!) { 
+              addSkuItem(id: $id, input: $input) {
+                id
+              }
+            }
+          `),
+    });
+
+    return response.data?.addSkuItem;
   });

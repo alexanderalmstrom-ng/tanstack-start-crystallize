@@ -2,10 +2,10 @@ import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
 import { graphql } from "@/gql/cart";
 import { crystallizeCart } from "@/integrations/crystallize/client";
+import { authTokenMiddleware } from "../auth/authTokenMiddleware";
+import { cartMiddleware } from "../auth/cartMiddleware";
 
 const AddSkuItemInputSchema = z.object({
-  cartId: z.string(),
-  token: z.string(),
   sku: z.string(),
   quantity: z.number(),
 });
@@ -13,17 +13,18 @@ const AddSkuItemInputSchema = z.object({
 export const addSkuItemServerFn = createServerFn({
   method: "POST",
 })
+  .middleware([authTokenMiddleware, cartMiddleware])
   .inputValidator(AddSkuItemInputSchema)
-  .handler(async ({ data: { cartId, token, sku, quantity } }) => {
+  .handler(async ({ data, context }) => {
     const response = await crystallizeCart({
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${context.token}`,
       },
       variables: {
-        id: cartId,
+        id: context.cartId,
         input: {
-          sku,
-          quantity,
+          sku: data.sku,
+          quantity: data.quantity,
         },
       },
       query: graphql(`
