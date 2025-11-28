@@ -20,7 +20,9 @@ import {
 } from "@/components/ui/select";
 import type { ProductFragment } from "@/gql/discovery/graphql";
 import { addToCartServerFn } from "@/lib/cart/addToCart.server";
+import { resolveImagesFragment } from "@/lib/images";
 import { getVariantsWithSkuAndName } from "@/lib/variants";
+import ProductSwatchImage from "./ProductSwatchImage";
 
 const productFormSchema = z.object({
   variant: z.string().min(1),
@@ -69,11 +71,25 @@ export default function ProductForm({ product }: { product: ProductFragment }) {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {variants.map((variant) => (
-                        <SelectItem key={variant.sku} value={variant.sku}>
-                          {variant.name}
-                        </SelectItem>
-                      ))}
+                      {variants.map((variant) => {
+                        const variantImages = resolveImagesFragment(
+                          variant.images,
+                        );
+                        return (
+                          <SelectItem key={variant.sku} value={variant.sku}>
+                            {variantImages?.[0]?.url && (
+                              <ProductSwatchImage
+                                src={variantImages?.[0]?.url}
+                                width={variantImages?.[0]?.width ?? 100}
+                                height={variantImages?.[0]?.height ?? 100}
+                                alt={variantImages?.[0]?.altText ?? ""}
+                                sizes="100px"
+                              />
+                            )}
+                            {variant.name}
+                          </SelectItem>
+                        );
+                      })}
                     </SelectGroup>
                   </SelectContent>
                 </Select>

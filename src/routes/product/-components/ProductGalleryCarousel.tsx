@@ -13,7 +13,10 @@ import { resolveImagesFragment } from "@/lib/images";
 export default function ProductGalleryCarousel({
   images,
 }: {
-  images: (FragmentType<typeof imageFragment> | null | undefined)[] | undefined;
+  images:
+    | (FragmentType<typeof imageFragment> | null | undefined)[]
+    | null
+    | undefined;
 }) {
   if (!images || images.length === 0) return null;
 

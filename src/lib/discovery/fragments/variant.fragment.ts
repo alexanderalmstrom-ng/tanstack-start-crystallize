@@ -11,5 +11,6 @@ export const variantFragment = graphql(`
     images {
       ...image
     }
+    attributes
   }
 `);
