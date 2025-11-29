@@ -1,15 +1,13 @@
 import { createContext, type ReactNode, use } from "react";
 import { useCartQuery } from "@/hooks/useCartQuery";
 
-type ShopifySessionContextType = {
+type SessionContextType = {
   cart: ReturnType<typeof useCartQuery>["data"];
   cartIsLoading: ReturnType<typeof useCartQuery>["isLoading"];
   cartRefetch: ReturnType<typeof useCartQuery>["refetch"];
 };
 
-const SessionContext = createContext<ShopifySessionContextType | undefined>(
-  undefined,
-);
+const SessionContext = createContext<SessionContextType | undefined>(undefined);
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const {
