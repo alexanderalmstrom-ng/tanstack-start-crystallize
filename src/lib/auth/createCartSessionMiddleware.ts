@@ -1,6 +1,6 @@
 import { createMiddleware } from "@tanstack/react-start";
 import z from "zod";
-import { useSession } from "@/hooks/useSession";
+import { useCartSession } from "@/hooks/useSession";
 import { createCartServerFn } from "../cart/createCart.server";
 
 export const createCartSessionMiddleware = createMiddleware({
@@ -17,25 +17,25 @@ export const createCartSessionMiddleware = createMiddleware({
     }),
   )
   .server(async ({ next, data }) => {
-    const session = await useSession();
+    const cartSession = await useCartSession();
 
-    if (!session.data.cartId) {
+    if (!cartSession.data.cartId) {
       const newCart = await createCartServerFn({
         data: { input: { items: data.items } },
       });
 
-      await session.update({
+      await cartSession.update({
         cartId: newCart?.id,
       });
     }
 
-    if (!session.data.cartId) {
+    if (!cartSession.data.cartId) {
       throw new Error("Cart not found");
     }
 
     return next({
       context: {
-        cartId: session.data.cartId,
+        cartId: cartSession.data.cartId,
       },
     });
   });

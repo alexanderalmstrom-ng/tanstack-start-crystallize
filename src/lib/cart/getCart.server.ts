@@ -1,22 +1,23 @@
 import { createServerFn } from "@tanstack/react-start";
-import { useSession } from "@/hooks/useSession";
+import { useAuthTokenSession, useCartSession } from "@/hooks/useSession";
 import { crystallizeCart } from "@/integrations/crystallize/client";
 import { getCartQuery } from "./getCart.query";
 
 export const getCartServerFn = createServerFn({ method: "GET" }).handler(
   async () => {
-    const session = await useSession();
+    const cartSession = await useCartSession();
+    const authTokenSession = await useAuthTokenSession();
 
-    if (!session.data.cartId || !session.data.token) {
+    if (!cartSession.data.cartId || !authTokenSession.data.token) {
       return null;
     }
 
     const response = await crystallizeCart({
       variables: {
-        id: session.data.cartId,
+        id: cartSession.data.cartId,
       },
       headers: {
-        Authorization: `Bearer ${session.data.token}`,
+        Authorization: `Bearer ${authTokenSession.data.token}`,
       },
       query: getCartQuery,
     });

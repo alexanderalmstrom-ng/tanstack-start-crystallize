@@ -7,6 +7,6 @@ export function useCartQuery() {
 
   return useQuery({
     queryKey: ["cart"],
-    queryFn: () => getCart(),
+    queryFn: getCart,
   });
 }

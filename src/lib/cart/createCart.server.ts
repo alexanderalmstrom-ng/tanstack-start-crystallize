@@ -1,7 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
 import { crystallizeCart } from "@/integrations/crystallize/client";
-import { createAuthTokenServerFn } from "../auth/createAuthTokenServerFn";
 import { createAuthTokenSessionMiddleware } from "../auth/createAuthTokenSessionMiddleware";
 import { createCartMutation } from "./createCart.mutation";
 
@@ -21,12 +20,10 @@ export const createCartServerFn = createServerFn({
 })
   .middleware([createAuthTokenSessionMiddleware])
   .inputValidator(CreateCartInputSchema)
-  .handler(async ({ data: { input } }) => {
-    const token = await createAuthTokenServerFn();
-
+  .handler(async ({ data: { input }, context }) => {
     const response = await crystallizeCart({
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${context.token}`,
       },
       variables: {
         input,

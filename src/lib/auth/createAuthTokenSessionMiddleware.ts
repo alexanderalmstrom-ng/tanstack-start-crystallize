@@ -1,25 +1,25 @@
 import { createMiddleware } from "@tanstack/react-start";
-import { useSession } from "@/hooks/useSession";
+import { useAuthTokenSession } from "@/hooks/useSession";
 import { createAuthTokenServerFn } from "./createAuthTokenServerFn";
 
 export const createAuthTokenSessionMiddleware = createMiddleware({
   type: "function",
 }).server(async ({ next }) => {
-  const session = await useSession();
+  const authTokenSession = await useAuthTokenSession();
 
-  if (!session.data.token) {
-    await session.update({
+  if (!authTokenSession.data.token) {
+    await authTokenSession.update({
       token: await createAuthTokenServerFn(),
     });
   }
 
-  if (!session.data.token) {
+  if (!authTokenSession.data.token) {
     throw new Error("Token not found");
   }
 
   return next({
     context: {
-      token: session.data.token,
+      token: authTokenSession.data.token,
     },
   });
 });
